@@ -18,9 +18,32 @@
 {% do view.registerAssetBundle("adigital\\eventbrite\\assetbundles\\eventbrite\\EventbriteAsset") %}
 
 {{ forms.textField({
-    label: 'Some Field',
-    instructions: 'Enter some setting here.',
-    id: 'someAttribute',
-    name: 'someAttribute',
-    value: settings['someAttribute']})
+    label: 'Auth Token',
+    instructions: 'Enter your auth token here.',
+    id: 'authToken',
+    name: 'authToken',
+    value: settings['authToken']})
+}}
+
+{{ forms.textField({
+    label: 'Organisation ID',
+    instructions: 'Enter your organisation ID here.',
+    id: 'organisationId',
+    name: 'organisationId',
+    value: settings['organisationId']})
+}}
+
+{{ forms.editableTableField({
+    label: 'Other Event IDs',
+    instructions: 'Enter the Eventbrite IDs of any events not organised by Burnetts that should be shown on the website in this field.',
+    id: 'otherEventIds',
+    name: 'otherEventIds',
+    cols: [
+      {
+        'heading': 'Event ID',
+        'info': 'Enter the Event ID in this column.',
+        'type': 'singleline'
+      }
+    ],
+    rows: settings['otherEventIds']})
 }}

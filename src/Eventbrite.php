@@ -10,7 +10,7 @@
 
 namespace adigital\eventbrite;
 
-use adigital\eventbrite\services\EventbriteService as EventbriteServiceService;
+use adigital\eventbrite\services\EventbriteEvents;
 use adigital\eventbrite\variables\EventbriteVariable;
 use adigital\eventbrite\models\Settings;
 use adigital\eventbrite\widgets\EventbriteWidget as EventbriteWidgetWidget;

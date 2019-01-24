@@ -10,7 +10,7 @@
 
 namespace adigital\eventbrite\models;
 
-use adigital\eventbrite\Eventbrite;
+use adigital\Eventbrite;
 
 use Craft;
 use craft\base\Model;
@@ -39,7 +39,9 @@ class Settings extends Model
      *
      * @var string
      */
-    public $someAttribute = 'Some Default';
+    public $authToken = '';
+    public $organisationId = '';
+    public $otherEventIds = '';
 
     // Public Methods
     // =========================================================================
@@ -57,8 +59,13 @@ class Settings extends Model
     public function rules()
     {
         return [
-            ['someAttribute', 'string'],
-            ['someAttribute', 'default', 'value' => 'Some Default'],
+            ['authToken', 'string'],
+            ['authToken', 'required'],
+            ['authToken', 'default', 'value' => ''],
+            ['organisationId', 'string'],
+            ['organisationId', 'required'],
+            ['organisationId', 'default', 'value' => ''],
+            ['otherEventIds', 'default'],
         ];
     }
 }

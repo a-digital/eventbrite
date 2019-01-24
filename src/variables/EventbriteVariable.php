@@ -11,6 +11,7 @@
 namespace adigital\eventbrite\variables;
 
 use adigital\eventbrite\Eventbrite;
+use adigital\eventbrite\EventbriteEvents;
 
 use Craft;
 
@@ -45,12 +46,13 @@ class EventbriteVariable
      * @param null $optional
      * @return string
      */
-    public function exampleVariable($optional = null)
+    public function allEvents()
     {
-        $result = "And away we go to the Twig template...";
-        if ($optional) {
-            $result = "I'm feeling optional today...";
-        }
-        return $result;
+        return Eventbrite::$plugin->eventbriteEvents->getAllEvents();
+    }
+    
+    public function eventById($eventId)
+    {
+        return Eventbrite::$plugin->eventbriteEvents->getEvent($eventId);
     }
 }

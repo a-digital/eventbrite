@@ -11,8 +11,8 @@
         "eventbrite"
     ],
     "support": {
-        "docs": "https://github.com/eventbrite/eventbrite/blob/master/README.md",
-        "issues": "https://github.com/eventbrite/eventbrite/issues"
+        "docs": "https://github.com/a-digital/eventbrite/blob/master/README.md",
+        "issues": "https://github.com/a-digital/eventbrite/issues"
     },
     "license": "MIT",
     "authors": [
@@ -34,9 +34,9 @@
         "handle": "eventbrite",
         "hasCpSettings": true,
         "hasCpSection": true,
-        "changelogUrl": "https://raw.githubusercontent.com/eventbrite/eventbrite/master/CHANGELOG.md",
+        "changelogUrl": "https://raw.githubusercontent.com/a-digital/eventbrite/master/CHANGELOG.md",
         "components": {
-            "eventbriteService": "adigital\\eventbrite\\services\\EventbriteService"
+            "eventbriteEvents": "adigital\\eventbrite\\services\\EventbriteEvents"
         },
         "class": "adigital\\eventbrite\\Eventbrite"
     }

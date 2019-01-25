@@ -22,7 +22,9 @@
     instructions: 'Enter your auth token here.',
     id: 'authToken',
     name: 'authToken',
-    value: settings['authToken']})
+    value: settings['authToken'],
+    errors: settings.getErrors('authToken'),
+    required: true})
 }}
 
 {{ forms.textField({
@@ -30,7 +32,9 @@
     instructions: 'Enter your organisation ID here.',
     id: 'organisationId',
     name: 'organisationId',
-    value: settings['organisationId']})
+    value: settings['organisationId'],
+    errors: settings.getErrors('organisationId'),
+    required: true})
 }}
 
 {{ forms.editableTableField({

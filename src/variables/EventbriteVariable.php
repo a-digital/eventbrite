@@ -46,13 +46,23 @@ class EventbriteVariable
      * @param null $optional
      * @return string
      */
-    public function allEvents()
+    public function allEvents($include_category = false, $include_venue = false, $sort = true, $time_filter = "current_future")
     {
-        return Eventbrite::$plugin->eventbriteEvents->getAllEvents();
+        return Eventbrite::$plugin->eventbriteEvents->getAllEvents($sort, $time_filter);
     }
     
-    public function eventById($eventId)
+    public function organisationEvents($include_category = false, $include_venue = false, $time_filter = "current_future")
     {
-        return Eventbrite::$plugin->eventbriteEvents->getEvent($eventId);
+        return Eventbrite::$plugin->eventbriteEvents->getOrganisationEvents($include_category, $include_venue, $time_filter)['events'];
+    }
+    
+    public function otherEvents($include_category = false, $include_venue = false, $sort = true, $time_filter = "current_future")
+    {
+        return Eventbrite::$plugin->eventbriteEvents->getOtherEvents($include_category, $include_venue, $sort, $time_filter);
+    }
+    
+    public function eventById($eventId, $include_category = false, $include_venue = false)
+    {
+        return Eventbrite::$plugin->eventbriteEvents->getEvent($eventId, $include_category, $include_venue);
     }
 }

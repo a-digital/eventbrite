@@ -46,23 +46,38 @@ class EventbriteVariable
      * @param null $optional
      * @return string
      */
-    public function allEvents($include_category = false, $include_venue = false, $sort = true, $time_filter = "current_future")
+    public function allEvents($expansions = null, $sort = true, $time_filter = "current_future")
     {
-        return Eventbrite::$plugin->eventbriteEvents->getAllEvents($sort, $time_filter);
+	    return Eventbrite::$plugin->eventbriteEvents->getAllEvents($expansions, $sort, $time_filter);
     }
     
-    public function organisationEvents($include_category = false, $include_venue = false, $time_filter = "current_future")
+    public function organisationEvents($expansions = null, $time_filter = "current_future")
     {
-        return Eventbrite::$plugin->eventbriteEvents->getOrganisationEvents($include_category, $include_venue, $time_filter)['events'];
+        return Eventbrite::$plugin->eventbriteEvents->getOrganisationEvents($expansions, $time_filter);
     }
     
-    public function otherEvents($include_category = false, $include_venue = false, $sort = true, $time_filter = "current_future")
+    public function otherEvents($expansions = null, $sort = true, $time_filter = "current_future")
     {
-        return Eventbrite::$plugin->eventbriteEvents->getOtherEvents($include_category, $include_venue, $sort, $time_filter);
+        return Eventbrite::$plugin->eventbriteEvents->getOtherEvents($expansions, $sort, $time_filter);
     }
     
-    public function eventById($eventId, $include_category = false, $include_venue = false)
-    {
-        return Eventbrite::$plugin->eventbriteEvents->getEvent($eventId, $include_category, $include_venue);
+    public function eventById($eventId, $expansions = null)
+    {   
+        return Eventbrite::$plugin->eventbriteEvents->getEvent($eventId, $expansions);
+    }
+    
+    public function organisationVenues()
+    {   
+        return Eventbrite::$plugin->eventbriteEvents->getOrganizationVenues();
+    }
+    
+    public function venueById($venueId)
+    {   
+        return Eventbrite::$plugin->eventbriteEvents->getVenue($venueId);
+    }
+    
+    public function venueEvents($venueId, $expansions = null)
+    {   
+        return Eventbrite::$plugin->eventbriteEvents->getEventsByVenue($venueId, $expansions);
     }
 }

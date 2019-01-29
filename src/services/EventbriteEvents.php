@@ -43,17 +43,16 @@ class EventbriteEvents extends Component
      *
      * @return mixed
      */
-    public function getOrganisationEvents($include_category = false, $include_venue = false, $time_filter = "current_future")
+    public function getOrganisationEvents($expansions = null, $time_filter = "current_future")
     {
 	    $settings = Eventbrite::$plugin->getSettings();
 	    $organisationId = $settings->organisationId;
 	    $method = "/v3/organizations/" . $organisationId . "/events/";
 	    
-	    if ($include_category || $include_venue || $time_filter != "all")
+	    if (!empty($expansions) || $time_filter != "all")
 	    {
-		  $method .= $this->buildEventMethodQueryString($method, $include_category, $include_venue, $time_filter);
-	    }
-	    
+		  $method = $this->buildEventMethodQueryString($method, $expansions, $time_filter);
+	    }	    
 	    $organisationEvents = $this->curlWrap($method);
 	    
 	    return $organisationEvents;
@@ -69,14 +68,14 @@ class EventbriteEvents extends Component
      *
      * @return mixed
      */
-    public function getOtherEvents($include_category = false, $include_venue = false, $sort = true, $time_filter = "current_future")
+    public function getOtherEvents($expansions = null, $sort = true, $time_filter = "current_future")
     {
 	    $settings = Eventbrite::$plugin->getSettings();
 	    $otherEventIds = $settings->otherEventIds;
 	    $otherEvents = array();
 	    
 	    foreach($otherEventIds AS $otherEventId) {
-		    $data = $this->getEvent($otherEventId[0], $include_category, $include_venue);
+		    $data = $this->getEvent($otherEventId[0], $expansions);
 		    
 		    if ($time_filter != "all")
 		    {
@@ -107,13 +106,13 @@ class EventbriteEvents extends Component
      *
      * @return mixed
      */
-    public function getEvent($eventId, $include_category = false, $include_venue = false)
+    public function getEvent($eventId, $expansions = null)
     {
 	    $method = "/v3/events/" . $eventId . "/";
 	    
-	    if ($include_category || $include_venue)
+	    if (!empty($expansions))
 	    {
-		  $method = $this->buildEventMethodQueryString($method, $include_category, $include_venue);
+		  $method = $this->buildEventMethodQueryString($method, $expansions);
 	    }
 	    
 		$event = $this->curlWrap($method);
@@ -131,10 +130,10 @@ class EventbriteEvents extends Component
      *
      * @return mixed
      */
-    public function getAllEvents($include_category = false, $include_venue = false, $sort = true, $time_filter = "current_future")
+    public function getAllEvents($expansions = null, $sort = true, $time_filter = "current_future")
     {
-	    $organisationEvents = $this->getOrganisationEvents($include_category, $include_venue, $time_filter);
-	    $otherEvents = $this->getOtherEvents($include_cateogory, $include_venue, false, $time_filter);
+	    $organisationEvents = $this->getOrganisationEvents($expansions, $time_filter);
+	    $otherEvents = $this->getOtherEvents($expansions, false, $time_filter);
 	    $combinedEvents = array_merge($organisationEvents['events'], $otherEvents);
 	    
 	    if ($sort && (count($organisationEvents['events']) > 0 && count($otherEvents) > 0))
@@ -155,7 +154,71 @@ class EventbriteEvents extends Component
      *
      * @return mixed
      */
-    static function sortByEventDates($event1, $event2)
+    public function getOrganizationVenues()
+    {
+	    $settings = Eventbrite::$plugin->getSettings();
+	    $organisationId = $settings->organisationId;
+	    $method = "/v3/organizations/" . $organisationId . "/venues/";
+	    	    
+	    $organisationVenues = $this->curlWrap($method);
+	    
+	    return $organisationVenues;
+    }
+
+    /**
+     * This function can literally be anything you want, and you can have as many service
+     * functions as you want
+     *
+     * From any other plugin file, call it like this:
+     *
+     *     Eventbrite::$plugin->eventbriteService->exampleService()
+     *
+     * @return mixed
+     */
+    public function getVenue($venueId)
+    {
+	    $method = "/v3/venues/" . $venueId . "/";
+	    
+		$venue = $this->curlWrap($method);
+	    
+	    return $venue;
+    }
+
+    /**
+     * This function can literally be anything you want, and you can have as many service
+     * functions as you want
+     *
+     * From any other plugin file, call it like this:
+     *
+     *     Eventbrite::$plugin->eventbriteService->exampleService()
+     *
+     * @return mixed
+     */
+    public function getEventsByVenue($venueId, $expansions = null)
+    {
+	    $method = "/v3/venues/" . $venueId . "/events/";
+	    
+	    if (!empty($expansions))
+	    {
+		  $method = $this->buildEventMethodQueryString($method, $expansions);
+	    }
+	    
+		$venueEvents = $this->curlWrap($method);
+	    
+	    return $venueEvents;
+    }
+
+    /**
+     * This function can literally be anything you want, and you can have as many service
+     * functions as you want
+     *
+     * From any other plugin file, call it like this:
+     *
+     *     Eventbrite::$plugin->eventbriteService->exampleService()
+     *
+     * @return mixed
+     */
+    private function sortByEventDates($event1, $event2)
     {
 	    $event1DateTime = new \DateTime($event1['start']['utc']);
 	    $event2DateTime = new \DateTime($event2['start']['utc']);
@@ -172,23 +235,20 @@ class EventbriteEvents extends Component
      *
      * @return mixed
      */
-    static function buildEventMethodQueryString($method, $include_category, $include_venue, $time_filter = false)
+    private function buildEventMethodQueryString($method, $expansions, $time_filter = false)
     {
 	    $method .= "?";
 	    
-	    if ($include_category || $include_venue)
+	    if (!empty($expansions))
 	    {
 		    $method .= "expand=";
 		    
-		    if ($include_category)
+		    foreach($expansions AS $expansion)
 		    {
-			    $method .= "category" . ( $include_venue ? "," : "" );
+			    $method .= $expansion.",";
 		    }
 		    
-		    if ($include_venue)
-		    {
-			    $method .= "venue";
-		    }
+		    $method = rtrim($method, ",");
 		    
 		    if ($time_filter)
 		    {

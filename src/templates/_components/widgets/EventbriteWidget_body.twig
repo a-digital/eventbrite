@@ -13,8 +13,12 @@
  */
 #}
 
-{% set iconUrl = view.getAssetManager().getPublishedUrl('@adigital/eventbrite/assetbundles/eventbritewidgetwidget/dist', true) ~ '/img/EventbriteWidget-icon.svg' %}
-
-<img src="{{ iconUrl }}" height="64" width="64" />
-
-<p>{{ message }}</p>
+<table class="data fullwidth">
+  <tbody>
+    {% for event in craft.eventbrite.allEvents() %}
+      <tr>
+        <td>{{ event['name']['text'] }} <span class="light nowrap">{{ event['start']['utc']|date("d/m/Y") }}</span></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

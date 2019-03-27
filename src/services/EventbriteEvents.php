@@ -30,282 +30,310 @@ use craft\base\Component;
  */
 class EventbriteEvents extends Component
 {
-    // Public Methods
-    // =========================================================================
+  // Public Methods
+  // =========================================================================
 
-    /**
-     * This function can literally be anything you want, and you can have as many service
-     * functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     Eventbrite::$plugin->eventbriteService->exampleService()
-     *
-     * @return mixed
-     */
-    public function getOrganisationEvents($expansions = null, $time_filter = "current_future")
+  /**
+   * This function can literally be anything you want, and you can have as many service
+   * functions as you want
+   *
+   * From any other plugin file, call it like this:
+   *
+   *     Eventbrite::$plugin->eventbriteService->exampleService()
+   *
+   * @return mixed
+   */
+  public function getOrganisationEvents($expansions = null, $time_filter = "current_future", $unlistedEvents = false)
+  {
+    $settings = Eventbrite::$plugin->getSettings();
+    $organisationId = $settings->organisationId;
+    $method = "/v3/organizations/" . $organisationId . "/events/";
+    
+    if (!empty($expansions) || $time_filter != "all")
     {
-	    $settings = Eventbrite::$plugin->getSettings();
-	    $organisationId = $settings->organisationId;
-	    $method = "/v3/organizations/" . $organisationId . "/events/";
-	    
-	    if (!empty($expansions) || $time_filter != "all")
-	    {
-		  $method = $this->buildEventMethodQueryString($method, $expansions, $time_filter);
-	    }	    
-	    $organisationEvents = $this->curlWrap($method);
-	    
-	    return $organisationEvents;
+      $method = $this->buildEventMethodQueryString($method, $expansions, $time_filter);
     }
-
-    /**
-     * This function can literally be anything you want, and you can have as many service
-     * functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     Eventbrite::$plugin->eventbriteService->exampleService()
-     *
-     * @return mixed
-     */
-    public function getOtherEvents($expansions = null, $sort = true, $time_filter = "current_future")
+    $organisationEvents = $this->curlWrap($method);
+    
+    if($unlistedEvents === false)
     {
-	    $settings = Eventbrite::$plugin->getSettings();
-	    $otherEventIds = $settings->otherEventIds;
-	    $otherEvents = array();
-	    
-	    foreach($otherEventIds AS $otherEventId) {
-		    $data = $this->getEvent($otherEventId[0], $expansions);
-		    
-		    if ($time_filter != "all")
-		    {
-			    $eventObj = new \DateTime($data['start']['utc']);
-		    }
-		    
-		    if ($time_filter == "all" || ($time_filter == "current_future" && $eventObj->getTimestamp() >= time()) || ($time_filter == "past" && $eventObj->getTimestamp() < time()))
-		    {
-			    $otherEvents[] = $data;
-		    }
-	    }
-	    
-	    if ($sort)
-	    {
-		    usort($otherEvents, array($this, "sortByEventDates"));
-	    }
-	    
-	    return $otherEvents;
-    }
-
-    /**
-     * This function can literally be anything you want, and you can have as many service
-     * functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     Eventbrite::$plugin->eventbriteService->exampleService()
-     *
-     * @return mixed
-     */
-    public function getEvent($eventId, $expansions = null)
-    {
-	    $method = "/v3/events/" . $eventId . "/";
-	    
-	    if (!empty($expansions))
-	    {
-		  $method = $this->buildEventMethodQueryString($method, $expansions);
-	    }
-	    
-		$event = $this->curlWrap($method);
-	    
-	    return $event;
-    }
-
-    /**
-     * This function can literally be anything you want, and you can have as many service
-     * functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     Eventbrite::$plugin->eventbriteService->exampleService()
-     *
-     * @return mixed
-     */
-    public function getAllEvents($expansions = null, $sort = true, $time_filter = "current_future")
-    {
-	    $organisationEvents = $this->getOrganisationEvents($expansions, $time_filter);
-	    $otherEvents = $this->getOtherEvents($expansions, false, $time_filter);
-	    $combinedEvents = array_merge($organisationEvents['events'], $otherEvents);
-	    
-	    if ($sort && (count($organisationEvents['events']) > 0 && count($otherEvents) > 0))
-	    {
-		    usort($combinedEvents, array($this, "sortByEventDates"));
-	    }
-	    
-	    return $combinedEvents;
-    }
-
-    /**
-     * This function can literally be anything you want, and you can have as many service
-     * functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     Eventbrite::$plugin->eventbriteService->exampleService()
-     *
-     * @return mixed
-     */
-    public function getOrganizationVenues()
-    {
-	    $settings = Eventbrite::$plugin->getSettings();
-	    $organisationId = $settings->organisationId;
-	    $method = "/v3/organizations/" . $organisationId . "/venues/";
-	    	    
-	    $organisationVenues = $this->curlWrap($method);
-	    
-	    return $organisationVenues;
-    }
-
-    /**
-     * This function can literally be anything you want, and you can have as many service
-     * functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     Eventbrite::$plugin->eventbriteService->exampleService()
-     *
-     * @return mixed
-     */
-    public function getVenue($venueId)
-    {
-	    $method = "/v3/venues/" . $venueId . "/";
-	    
-		$venue = $this->curlWrap($method);
-	    
-	    return $venue;
-    }
-
-    /**
-     * This function can literally be anything you want, and you can have as many service
-     * functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     Eventbrite::$plugin->eventbriteService->exampleService()
-     *
-     * @return mixed
-     */
-    public function getEventsByVenue($venueId, $expansions = null)
-    {
-	    $method = "/v3/venues/" . $venueId . "/events/";
-	    
-	    if (!empty($expansions))
-	    {
-		  $method = $this->buildEventMethodQueryString($method, $expansions);
-	    }
-	    
-		$venueEvents = $this->curlWrap($method);
-	    
-	    return $venueEvents;
-    }
-
-    /**
-     * This function can literally be anything you want, and you can have as many service
-     * functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     Eventbrite::$plugin->eventbriteService->exampleService()
-     *
-     * @return mixed
-     */
-    private function sortByEventDates($event1, $event2)
-    {
-	    $event1DateTime = new \DateTime($event1['start']['utc']);
-	    $event2DateTime = new \DateTime($event2['start']['utc']);
-	    return $event1DateTime->getTimestamp() - $event2DateTime->getTimestamp();
+      foreach($organisationEvents['events'] AS $key => $organisationEvent) {
+        if($organisationEvent['listed'] === false)
+        {
+          unset($organisationEvents['events'][$key]);
+        }
+      }
     }
     
-    /**
-     * This function can literally be anything you want, and you can have as many service
-     * functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     Eventbrite::$plugin->eventbriteService->exampleService()
-     *
-     * @return mixed
-     */
-    private function buildEventMethodQueryString($method, $expansions, $time_filter = false)
-    {
-	    $method .= "?";
-	    
-	    if (!empty($expansions))
-	    {
-		    $method .= "expand=";
-		    
-		    foreach($expansions AS $expansion)
-		    {
-			    $method .= $expansion.",";
-		    }
-		    
-		    $method = rtrim($method, ",");
-		    
-		    if ($time_filter)
-		    {
-			    $method .= "&";
-		    }
-	    }
-	    
-	    if ($time_filter)
-	    {
-		    $method .= "time_filter=" . $time_filter;
-	    }
-	    
-	    return $method;
-    }
+    return $organisationEvents;
+  }
 
-    /**
-     * This function can literally be anything you want, and you can have as many service
-     * functions as you want
-     *
-     * From any other plugin file, call it like this:
-     *
-     *     Eventbrite::$plugin->eventbriteService->exampleService()
-     *
-     * @return mixed
-     */
-    private function curlWrap($method, $request = null)
-    {
-        $settings = Eventbrite::$plugin->getSettings();
-        $authToken = $settings->authToken;
-        $host = 'www.eventbriteapi.com';
-	    $headers = [
-            'Host: '.$host,
-            'Authorization: Bearer '.$authToken,
-            'Accept: application/json'
-        ];
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://'.$host.'/'.$method);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_VERBOSE, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-        if ($request !== null) {
-            curl_setopt($ch, CURLOPT_POST,1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
-            $headers[] = 'Content-Type: application/json';
+  /**
+   * This function can literally be anything you want, and you can have as many service
+   * functions as you want
+   *
+   * From any other plugin file, call it like this:
+   *
+   *     Eventbrite::$plugin->eventbriteService->exampleService()
+   *
+   * @return mixed
+   */
+  public function getOtherEvents($expansions = null, $sort = true, $time_filter = "current_future", $unlistedEvents = false)
+  {
+    $settings = Eventbrite::$plugin->getSettings();
+    $otherEventIds = $settings->otherEventIds;
+    $otherEvents = array();
+    
+    foreach($otherEventIds AS $otherEventId) {
+      $data = $this->getEvent($otherEventId[0], $expansions, $unlistedEvents);
+      
+      if(is_array($data))
+      {
+        if ($time_filter != "all")
+        {
+          $eventObj = new \DateTime($data['start']['utc']);
         }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        $output = curl_exec($ch);
-        curl_close($ch);
-        $decoded = json_decode($output, true);
-        if (array_key_exists("error", $decoded)) {
-	        print ("<p>Error " . $decoded['status_code'] . " retrieving data from Eventbrite: " . $decoded['error_description'] . "</p>");
-	        return;
+        
+        if ($time_filter == "all" || ($time_filter == "current_future" && $eventObj->getTimestamp() >= time()) || ($time_filter == "past" && $eventObj->getTimestamp() < time()))
+        {
+          $otherEvents[] = $data;
         }
-        return $decoded;
+      }
     }
+    
+    if ($sort)
+    {
+      usort($otherEvents, array($this, "sortByEventDates"));
+    }
+    
+    return $otherEvents;
+  }
+
+  /**
+   * This function can literally be anything you want, and you can have as many service
+   * functions as you want
+   *
+   * From any other plugin file, call it like this:
+   *
+   *     Eventbrite::$plugin->eventbriteService->exampleService()
+   *
+   * @return mixed
+   */
+  public function getEvent($eventId, $expansions = null, $unlistedEvent = false)
+  {
+    $method = "/v3/events/" . $eventId . "/";
+    
+    if (!empty($expansions))
+    {
+      $method = $this->buildEventMethodQueryString($method, $expansions);
+    }
+    
+    $event = $this->curlWrap($method);
+    
+    if ($unlistedEvent === false && $event['listed'] === false)
+    {
+      $event = null;
+    }
+    
+    return $event;
+  }
+
+  /**
+   * This function can literally be anything you want, and you can have as many service
+   * functions as you want
+   *
+   * From any other plugin file, call it like this:
+   *
+   *     Eventbrite::$plugin->eventbriteService->exampleService()
+   *
+   * @return mixed
+   */
+  public function getAllEvents($expansions = null, $sort = true, $time_filter = "current_future", $unlistedEvents = false)
+  {
+    $organisationEvents = $this->getOrganisationEvents($expansions, $time_filter, $unlistedEvents);
+    $otherEvents = $this->getOtherEvents($expansions, false, $time_filter, $unlistedEvents);
+    $combinedEvents = array_merge($organisationEvents['events'], $otherEvents);
+    
+    if ($sort && (count($organisationEvents['events']) > 0 && count($otherEvents) > 0))
+    {
+      usort($combinedEvents, array($this, "sortByEventDates"));
+    }
+    
+    return $combinedEvents;
+  }
+
+  /**
+   * This function can literally be anything you want, and you can have as many service
+   * functions as you want
+   *
+   * From any other plugin file, call it like this:
+   *
+   *     Eventbrite::$plugin->eventbriteService->exampleService()
+   *
+   * @return mixed
+   */
+  public function getOrganizationVenues()
+  {
+    $settings = Eventbrite::$plugin->getSettings();
+    $organisationId = $settings->organisationId;
+    $method = "/v3/organizations/" . $organisationId . "/venues/";
+    	
+    $organisationVenues = $this->curlWrap($method);
+    
+    return $organisationVenues;
+  }
+
+  /**
+   * This function can literally be anything you want, and you can have as many service
+   * functions as you want
+   *
+   * From any other plugin file, call it like this:
+   *
+   *     Eventbrite::$plugin->eventbriteService->exampleService()
+   *
+   * @return mixed
+   */
+  public function getVenue($venueId)
+  {
+    $method = "/v3/venues/" . $venueId . "/";
+    
+    $venue = $this->curlWrap($method);
+    
+    return $venue;
+  }
+
+  /**
+   * This function can literally be anything you want, and you can have as many service
+   * functions as you want
+   *
+   * From any other plugin file, call it like this:
+   *
+   *     Eventbrite::$plugin->eventbriteService->exampleService()
+   *
+   * @return mixed
+   */
+  public function getEventsByVenue($venueId, $expansions = null, $unlistedEvents = false)
+  {
+    $method = "/v3/venues/" . $venueId . "/events/";
+    
+    if (!empty($expansions))
+    {
+      $method = $this->buildEventMethodQueryString($method, $expansions);
+    }
+    
+    $venueEvents = $this->curlWrap($method);
+    
+    if($unlistedEvents === false)
+    {
+      foreach($venueEvents['events'] AS $key => $venueEvent) {
+        if($venueEvent['listed'] === false)
+        {
+          unset($venueEvents['events'][$key]);
+        }
+      }
+    }
+    
+    return $venueEvents;
+  }
+
+  /**
+   * This function can literally be anything you want, and you can have as many service
+   * functions as you want
+   *
+   * From any other plugin file, call it like this:
+   *
+   *     Eventbrite::$plugin->eventbriteService->exampleService()
+   *
+   * @return mixed
+   */
+  private function sortByEventDates($event1, $event2)
+  {
+    $event1DateTime = new \DateTime($event1['start']['utc']);
+    $event2DateTime = new \DateTime($event2['start']['utc']);
+    return $event1DateTime->getTimestamp() - $event2DateTime->getTimestamp();
+  }
+
+  /**
+   * This function can literally be anything you want, and you can have as many service
+   * functions as you want
+   *
+   * From any other plugin file, call it like this:
+   *
+   *     Eventbrite::$plugin->eventbriteService->exampleService()
+   *
+   * @return mixed
+   */
+  private function buildEventMethodQueryString($method, $expansions, $time_filter = false)
+  {
+    $method .= "?";
+    
+    if (!empty($expansions))
+    {
+      $method .= "expand=";
+      
+      foreach($expansions AS $expansion)
+      {
+        $method .= $expansion.",";
+      }
+      
+      $method = rtrim($method, ",");
+      
+      if ($time_filter)
+      {
+        $method .= "&";
+      }
+    }
+    
+    if ($time_filter)
+    {
+      $method .= "time_filter=" . $time_filter;
+    }
+    
+    return $method;
+  }
+
+  /**
+   * This function can literally be anything you want, and you can have as many service
+   * functions as you want
+   *
+   * From any other plugin file, call it like this:
+   *
+   *     Eventbrite::$plugin->eventbriteService->exampleService()
+   *
+   * @return mixed
+   */
+  private function curlWrap($method, $request = null)
+  {
+    $settings = Eventbrite::$plugin->getSettings();
+    $authToken = $settings->authToken;
+    $host = 'www.eventbriteapi.com';
+    $headers = [
+      'Host: '.$host,
+      'Authorization: Bearer '.$authToken,
+      'Accept: application/json'
+    ];
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://'.$host.'/'.$method);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_VERBOSE, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+    if ($request !== null) {
+      curl_setopt($ch, CURLOPT_POST,1);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
+      $headers[] = 'Content-Type: application/json';
+    }
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    $output = curl_exec($ch);
+    curl_close($ch);
+    $decoded = json_decode($output, true);
+    if (array_key_exists("error", $decoded)) {
+      print ("<p>Error " . $decoded['status_code'] . " retrieving data from Eventbrite: " . $decoded['error_description'] . "</p>");
+      return;
+    }
+    return $decoded;
+  }
 
 }

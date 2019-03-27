@@ -1,43 +1,43 @@
 {
-    "name": "adigital/eventbrite",
-    "description": "Integration with Eventbrite API",
-    "type": "craft-plugin",
-    "version": "1.0.0",
-    "keywords": [
-        "craft",
-        "cms",
-        "craftcms",
-        "craft-plugin",
-        "eventbrite"
-    ],
-    "support": {
-        "docs": "https://github.com/a-digital/eventbrite/blob/master/README.md",
-        "issues": "https://github.com/a-digital/eventbrite/issues"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Mark @ A Digital",
-            "homepage": "https://adigital.agency/"
-        }
-    ],
-    "require": {
-        "craftcms/cms": "^3.0.0-RC1"
-    },
-    "autoload": {
-        "psr-4": {
-          "adigital\\eventbrite\\": "src/"
-        }
-    },
-    "extra": {
-        "name": "Eventbrite",
-        "handle": "eventbrite",
-        "hasCpSettings": true,
-        "hasCpSection": true,
-        "changelogUrl": "https://raw.githubusercontent.com/a-digital/eventbrite/master/CHANGELOG.md",
-        "components": {
-            "eventbriteEvents": "adigital\\eventbrite\\services\\EventbriteEvents"
-        },
-        "class": "adigital\\eventbrite\\Eventbrite"
+  "name": "adigital/eventbrite",
+  "description": "Integration with Eventbrite API",
+  "type": "craft-plugin",
+  "version": "1.0.0",
+  "keywords": [
+    "craft",
+    "cms",
+    "craftcms",
+    "craft-plugin",
+    "eventbrite"
+  ],
+  "support": {
+    "docs": "https://github.com/a-digital/eventbrite/blob/master/README.md",
+    "issues": "https://github.com/a-digital/eventbrite/issues"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mark @ A Digital",
+      "homepage": "https://adigital.agency/"
     }
+  ],
+  "require": {
+    "craftcms/cms": "^3.0.0-RC1"
+  },
+  "autoload": {
+    "psr-4": {
+      "adigital\\eventbrite\\": "src/"
+    }
+  },
+  "extra": {
+    "name": "Eventbrite",
+    "handle": "eventbrite",
+    "hasCpSettings": true,
+    "hasCpSection": true,
+    "changelogUrl": "https://raw.githubusercontent.com/a-digital/eventbrite/master/CHANGELOG.md",
+    "components": {
+      "eventbriteEvents": "adigital\\eventbrite\\services\\EventbriteEvents"
+    },
+    "class": "adigital\\eventbrite\\Eventbrite"
+  }
 }

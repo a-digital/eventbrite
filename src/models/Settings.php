@@ -31,41 +31,41 @@ use craft\base\Model;
  */
 class Settings extends Model
 {
-    // Public Properties
-    // =========================================================================
+  // Public Properties
+  // =========================================================================
 
-    /**
-     * Some field model attribute
-     *
-     * @var string
-     */
-    public $authToken = '';
-    public $organisationId = '';
-    public $otherEventIds = '';
+  /**
+   * Some field model attribute
+   *
+   * @var string
+   */
+  public $authToken = '';
+  public $organisationId = '';
+  public $otherEventIds = '';
 
-    // Public Methods
-    // =========================================================================
+  // Public Methods
+  // =========================================================================
 
-    /**
-     * Returns the validation rules for attributes.
-     *
-     * Validation rules are used by [[validate()]] to check if attribute values are valid.
-     * Child classes may override this method to declare different validation rules.
-     *
-     * More info: http://www.yiiframework.com/doc-2.0/guide-input-validation.html
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            ['authToken', 'string'],
-            ['authToken', 'required'],
-            ['authToken', 'default', 'value' => ''],
-            ['organisationId', 'string'],
-            ['organisationId', 'required'],
-            ['organisationId', 'default', 'value' => ''],
-            ['otherEventIds', 'default'],
-        ];
-    }
+  /**
+   * Returns the validation rules for attributes.
+   *
+   * Validation rules are used by [[validate()]] to check if attribute values are valid.
+   * Child classes may override this method to declare different validation rules.
+   *
+   * More info: http://www.yiiframework.com/doc-2.0/guide-input-validation.html
+   *
+   * @return array
+   */
+  public function rules()
+  {
+    return [
+      ['authToken', 'string'],
+      ['authToken', 'required'],
+      ['authToken', 'default', 'value' => ''],
+      ['organisationId', 'string'],
+      ['organisationId', 'required'],
+      ['organisationId', 'default', 'value' => ''],
+      ['otherEventIds', 'default'],
+    ];
+  }
 }

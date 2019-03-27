@@ -31,55 +31,55 @@ use craft\base\Widget;
 class EventbriteWidget extends Widget
 {
 
-    // Static Methods
-    // =========================================================================
+  // Static Methods
+  // =========================================================================
 
-    /**
-     * Returns the display name of this class.
-     *
-     * @return string The display name of this class.
-     */
-    public static function displayName(): string
-    {
-        return Craft::t('eventbrite', 'Upcoming Events');
-    }
+  /**
+   * Returns the display name of this class.
+   *
+   * @return string The display name of this class.
+   */
+  public static function displayName(): string
+  {
+    return Craft::t('eventbrite', 'Upcoming Events');
+  }
 
-    /**
-     * Returns the path to the widget’s SVG icon.
-     *
-     * @return string|null The path to the widget’s SVG icon
-     */
-    public static function iconPath()
-    {
-        return Craft::getAlias("@adigital/eventbrite/assetbundles/eventbritewidgetwidget/dist/img/EventbriteWidget-icon.svg");
-    }
+  /**
+   * Returns the path to the widget’s SVG icon.
+   *
+   * @return string|null The path to the widget’s SVG icon
+   */
+  public static function iconPath()
+  {
+    return Craft::getAlias("@adigital/eventbrite/assetbundles/eventbritewidgetwidget/dist/img/EventbriteWidget-icon.svg");
+  }
 
-    /**
-     * Returns the widget’s maximum colspan.
-     *
-     * @return int|null The widget’s maximum colspan, if it has one
-     */
-    public static function maxColspan()
-    {
-        return null;
-    }
+  /**
+   * Returns the widget’s maximum colspan.
+   *
+   * @return int|null The widget’s maximum colspan, if it has one
+   */
+  public static function maxColspan()
+  {
+    return null;
+  }
 
-    // Public Methods
-    // =========================================================================
+  // Public Methods
+  // =========================================================================
 
-    /**
-     * Returns the widget's body HTML.
-     *
-     * @return string|false The widget’s body HTML, or `false` if the widget
-     *                      should not be visible. (If you don’t want the widget
-     *                      to be selectable in the first place, use {@link isSelectable()}.)
-     */
-    public function getBodyHtml()
-    {
-        Craft::$app->getView()->registerAssetBundle(EventbriteWidgetWidgetAsset::class);
+  /**
+   * Returns the widget's body HTML.
+   *
+   * @return string|false The widget’s body HTML, or `false` if the widget
+   *                      should not be visible. (If you don’t want the widget
+   *                      to be selectable in the first place, use {@link isSelectable()}.)
+   */
+  public function getBodyHtml()
+  {
+    Craft::$app->getView()->registerAssetBundle(EventbriteWidgetWidgetAsset::class);
 
-        return Craft::$app->getView()->renderTemplate(
-            'eventbrite/_components/widgets/EventbriteWidget_body'
-        );
-    }
+    return Craft::$app->getView()->renderTemplate(
+      'eventbrite/_components/widgets/EventbriteWidget_body'
+    );
+  }
 }

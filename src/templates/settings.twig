@@ -13,41 +13,52 @@
  */
 #}
 
+{% extends parentLayout ?? '_layouts/cp' %}
+
+{% set title = 'Evenbrite' %}
+
+{% set content %}
+
+{% requirePermission 'eventbrite:settings' %}
+{% set fullPageForm = true %}
 {% import "_includes/forms" as forms %}
 
-{% do view.registerAssetBundle("adigital\\eventbrite\\assetbundles\\eventbrite\\EventbriteAsset") %}
-
-{{ forms.textField({
-  label: 'Auth Token',
-  instructions: 'Enter your auth token here.',
-  id: 'authToken',
-  name: 'authToken',
-  value: settings['authToken'],
-  errors: settings.getErrors('authToken'),
-  required: true})
-}}
-
-{{ forms.textField({
-  label: 'Organisation ID',
-  instructions: 'Enter your organisation ID here.',
-  id: 'organisationId',
-  name: 'organisationId',
-  value: settings['organisationId'],
-  errors: settings.getErrors('organisationId'),
-  required: true})
-}}
-
-{{ forms.editableTableField({
-  label: 'Other Event IDs',
-  instructions: 'Enter the Eventbrite IDs of any events not organised by Burnetts that should be shown on the website in this field.',
-  id: 'otherEventIds',
-  name: 'otherEventIds',
-  cols: [
-    {
-      'heading': 'Event ID',
-      'info': 'Enter the Event ID in this column.',
-      'type': 'singleline'
-    }
-  ],
-  rows: settings['otherEventIds']})
-}}
+<input type="hidden" name="action" value="eventbrite/default/save-plugin-settings">
+<input type="hidden" name="pluginHandle" value="eventbrite">
+  
+  {{ forms.textField({
+    label: 'Auth Token',
+    instructions: 'Enter your auth token here.',
+    id: 'authToken',
+    name: 'settings[authToken]',
+    value: settings['authToken'],
+    errors: settings.getErrors('authToken'),
+    required: true})
+  }}
+  
+  {{ forms.textField({
+    label: 'Organisation ID',
+    instructions: 'Enter your organisation ID here.',
+    id: 'organisationId',
+    name: 'settings[organisationId]',
+    value: settings['organisationId'],
+    errors: settings.getErrors('organisationId'),
+    required: true})
+  }}
+  
+  {{ forms.editableTableField({
+    label: 'Other Event IDs',
+    instructions: 'Enter the Eventbrite IDs of any events not organised by Burnetts that should be shown on the website in this field.',
+    id: 'otherEventIds',
+    name: 'settings[otherEventIds]',
+    cols: [
+      {
+        'heading': 'Event ID',
+        'info': 'Enter the Event ID in this column.',
+        'type': 'singleline'
+      }
+    ],
+    rows: settings['otherEventIds']})
+  }}
+  
+{% endset %}

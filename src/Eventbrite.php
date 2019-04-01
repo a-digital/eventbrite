@@ -24,6 +24,9 @@ use craft\web\twig\variables\CraftVariable;
 use craft\services\Dashboard;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
+use craft\events\RegisterUserPermissionsEvent;
+use craft\helpers\UrlHelper;
+use craft\services\UserPermissions;
 
 use yii\base\Event;
 
@@ -67,6 +70,8 @@ class Eventbrite extends Plugin
    * @var string
    */
   public $schemaVersion = '1.0.0';
+  public $hasCpSettings = true;
+  public $hasCpSection = true;
 
   // Public Methods
   // =========================================================================
@@ -87,23 +92,21 @@ class Eventbrite extends Plugin
     parent::init();
     self::$plugin = $this;
 
-    // Register our site routes
-    Event::on(
-      UrlManager::class,
-      UrlManager::EVENT_REGISTER_SITE_URL_RULES,
-      function (RegisterUrlRulesEvent $event) {
-        $event->rules['siteActionTrigger1'] = 'eventbrite/default';
-      }
-    );
-
     // Register our CP routes
     Event::on(
       UrlManager::class,
       UrlManager::EVENT_REGISTER_CP_URL_RULES,
       function (RegisterUrlRulesEvent $event) {
-        $event->rules['cpActionTrigger1'] = 'eventbrite/default/do-something';
+        $event->rules['eventbrite'] = 'eventbrite/default/settings';
       }
     );
+    
+    // Register our permissions
+	Event::on(UserPermissions::class, UserPermissions::EVENT_REGISTER_PERMISSIONS, function(RegisterUserPermissionsEvent $event) {
+      $event->permissions[Craft::t('eventbrite', 'Eventbrite')] = [
+        'eventbrite:settings' => ['label' => Craft::t('eventbrite', 'Settings')],
+      ];
+    });
 
     // Register our widgets
     Event::on(
@@ -163,6 +166,11 @@ class Eventbrite extends Plugin
       __METHOD__
     );
   }
+  
+  public function getSettingsResponse()
+  {
+    return Craft::$app->getResponse()->redirect(UrlHelper::cpUrl('eventbrite/settings'));
+  }
 
   // Protected Methods
   // =========================================================================
@@ -183,7 +191,7 @@ class Eventbrite extends Plugin
    *
    * @return string The rendered settings HTML
    */
-  protected function settingsHtml(): string
+  /*protected function settingsHtml(): string
   {
     return Craft::$app->view->renderTemplate(
       'eventbrite/settings',
@@ -191,5 +199,5 @@ class Eventbrite extends Plugin
         'settings' => $this->getSettings()
       ]
     );
-  }
+  }*/
 }

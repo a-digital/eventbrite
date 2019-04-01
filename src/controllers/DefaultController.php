@@ -38,42 +38,55 @@ use craft\web\Controller;
 class DefaultController extends Controller
 {
 
-    // Protected Properties
-    // =========================================================================
-
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     *         The actions must be in 'kebab-case'
-     * @access protected
-     */
-    protected $allowAnonymous = ['index', 'do-something'];
-
     // Public Methods
     // =========================================================================
 
     /**
-     * Handle a request going to our plugin's index action URL,
-     * e.g.: actions/eventbrite/default
+     * Handle a request going to our plugin's settings URL,
+     * e.g.: actions/eventbrite/settings
      *
-     * @return mixed
+     * @return rendered template
      */
-    public function actionIndex()
+    public function actionSettings()
     {
-        $result = 'Welcome to the DefaultController actionIndex() method';
-
-        return $result;
+        $settings = Eventbrite::$plugin->getSettings();
+        
+        return $this->renderTemplate('eventbrite/settings', [
+	      'settings' => $settings
+        ]);
     }
-
-    /**
-     * Handle a request going to our plugin's actionDoSomething URL,
-     * e.g.: actions/eventbrite/default/do-something
-     *
-     * @return mixed
-     */
-    public function actionDoSomething()
+    
+    public function actionSavePluginSettings()
     {
-        $result = 'Welcome to the DefaultController actionDoSomething() method';
-
-        return $result;
-    }
+	  $currentUser = Craft::$app->getUser()->getIdentity();
+      
+      if (!$currentUser->can('eventbrite:settings')) {
+        throw new ForbiddenHttpException('User is not permitted to perform this action.');
+      }
+      
+      $this->requirePostRequest();
+      
+      $pluginHandle = Craft::$app->getRequest()->getRequiredBodyParam('pluginHandle');
+      $settings = Craft::$app->getRequest()->getBodyParam('settings', []);
+      $plugin = Craft::$app->getPlugins()->getPlugin($pluginHandle);
+      
+      if ($plugin === null) {
+        throw new NotFoundHttpException('Plugin not found');
+      }
+      
+      if (!Craft::$app->getPlugins()->savePluginSettings($plugin, $settings)) {
+        Craft::$app->getSession()->setError(Craft::t('app', "Couldn't save plugin settings."));
+        
+        // Send the plugin back to the template
+        Craft::$app->getUrlManager()->setRouteParams([
+          'plugin' => $plugin,
+        ]);
+        
+        return null;
+      }
+      
+      Craft::$app->getSession()->setNotice(Craft::t('app', 'Plugin settings saved.'));
+      
+      return $this->redirectToPostedUrl();
+	}
 }

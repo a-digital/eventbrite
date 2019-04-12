@@ -85,18 +85,21 @@ class EventbriteEvents extends Component
     $otherEvents = array();
     
     foreach($otherEventIds AS $otherEventId) {
-      $data = $this->getEvent($otherEventId[0], $expansions, $unlistedEvents);
-      
-      if(is_array($data))
-      {
-        if ($time_filter != "all")
-        {
-          $eventObj = new \DateTime($data['start']['utc']);
-        }
+	  if($otherEventId[0] != "")
+	  {
+        $data = $this->getEvent($otherEventId[0], $expansions, $unlistedEvents);
         
-        if ($time_filter == "all" || ($time_filter == "current_future" && $eventObj->getTimestamp() >= time()) || ($time_filter == "past" && $eventObj->getTimestamp() < time()))
+        if(is_array($data))
         {
-          $otherEvents[] = $data;
+          if ($time_filter != "all")
+          {
+            $eventObj = new \DateTime($data['start']['utc']);
+          }
+          
+          if ($time_filter == "all" || ($time_filter == "current_future" && $eventObj->getTimestamp() >= time()) || ($time_filter == "past" && $eventObj->getTimestamp() < time()))
+          {
+            $otherEvents[] = $data;
+          }
         }
       }
     }

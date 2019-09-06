@@ -169,7 +169,9 @@ class Eventbrite extends Plugin
   
   public function getSettingsResponse()
   {
-    return Craft::$app->getResponse()->redirect(UrlHelper::cpUrl('eventbrite/settings'));
+	$url = \craft\helpers\UrlHelper::cpUrl('eventbrite');
+	
+    return \Craft::$app->controller->redirect($url);
   }
 
   // Protected Methods

@@ -10,10 +10,13 @@
 
 namespace adigital\eventbrite\models;
 
+use adigital\Eventbrite;
+
+use Craft;
 use craft\base\Model;
 
 /**
- * Eventbrite Settings Model
+ * Eventbrite Non-Admin Settings Model
  *
  * This is a model used to define the plugin's settings.
  *
@@ -26,7 +29,7 @@ use craft\base\Model;
  * @package   Eventbrite
  * @since     1.0.0
  */
-class Settings extends Model
+class NonAdminSettings extends Model
 {
   // Public Properties
   // =========================================================================
@@ -36,8 +39,7 @@ class Settings extends Model
    *
    * @var string
    */
-  public $authToken = '';
-  public $organisationId = '';
+  public $otherEventIds = [];
 
   // Public Methods
   // =========================================================================
@@ -54,13 +56,8 @@ class Settings extends Model
    */
   public function rules()
   {
-    return [
-      ['authToken', 'string'],
-      ['authToken', 'required'],
-      ['authToken', 'default', 'value' => ''],
-      ['organisationId', 'string'],
-      ['organisationId', 'required'],
-      ['organisationId', 'default', 'value' => ''],
-    ];
+	$rules = parent::rules();
+	$rules[] = [['otherEventIds'], 'mixed'];
+    return  $rules;
   }
 }

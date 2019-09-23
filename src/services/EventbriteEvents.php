@@ -81,7 +81,8 @@ class EventbriteEvents extends Component
   public function getOtherEvents($expansions = null, $sort = true, $time_filter = "current_future", $unlistedEvents = false)
   {
     $settings = Eventbrite::$plugin->getSettings();
-    $otherEventIds = $settings->otherEventIds;
+    $nonAdminSettings = Eventbrite::$plugin->nonAdminSettings->get()->one();
+    $otherEventIds = json_decode($nonAdminSettings->otherEventIds);
     $otherEvents = array();
     
     foreach($otherEventIds AS $otherEventId) {

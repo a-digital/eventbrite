@@ -45,35 +45,35 @@ Once configured, data is returned through the plugin variable using the followin
 
 `craft.eventbrite.allEvents([expansions] = null, sort = true, time_filter = "current_future", unlistedEvents = false)`
 
-This method returns all [events] (https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) planned by the organisation and specified by the additional event IDs setting. The `expansions` parameter corresponds to [additional models that can be returned when querying data] (https://www.eventbrite.com/platform/api#/introduction/expansions) from the API. You can see the [expansions that are available for events in the documentation] (https://www.eventbrite.com/platform/api#/reference/event). The `sort` parameter will sort events by date by default when organisation and other events are being combined. The `time_filter` parameter defaults to current and future events, but can also be `past` or `all`. The `unlistedEvents` parameter can be set to `true` if you want to return unlisted events.
+This method returns all [events](https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) planned by the organisation and specified by the additional event IDs setting. The `expansions` parameter corresponds to [additional models that can be returned when querying data](https://www.eventbrite.com/platform/api#/introduction/expansions) from the API. You can see the [expansions that are available for events in the documentation](https://www.eventbrite.com/platform/api#/reference/event). The `sort` parameter will sort events by date by default when organisation and other events are being combined. The `time_filter` parameter defaults to current and future events, but can also be `past` or `all`. The `unlistedEvents` parameter can be set to `true` if you want to return unlisted events.
 
 `craft.eventbrite.organisationEvents([expansions] = null, time_filter = "current_future", unlistedEvents = false)`
 
-This method returns only [events] (https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) planned by the organisation, with the parameters working in the same way as the `allEvents` method.
+This method returns only [events](https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) planned by the organisation, with the parameters working in the same way as the `allEvents` method.
 
 `craft.eventbrite.otherEvents([expansions] = null, sort = true, time_filter = "current_future", unlistedEvents = false)`
 
-This method returns only [events] (https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) specified by the 'Other Event Ids', with the parameters working in the same way as the `allEvents` method.
+This method returns only [events](https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) specified by the 'Other Event Ids', with the parameters working in the same way as the `allEvents` method.
 
 `craft.eventbrite.eventById(eventId, [expansions] = null, unlistedEvent = false)`
 
-This method returned a single [events] (https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) by its ID, which should be the numeric ID for the event in Eventbrite.
+This method returned a single [events](https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) by its ID, which should be the numeric ID for the event in Eventbrite.
 
 `organisationVenues()`
 
-This method returns all the [venues] (https://www.eventbrite.com/platform/api#/reference/venue/retrieve-an-event) belonging to the organisation specified in the plugin settings.
+This method returns all the [venues](https://www.eventbrite.com/platform/api#/reference/venue/retrieve-an-event) belonging to the organisation specified in the plugin settings.
 
 `venueById(venueId)`
 
-This method returns a [venue] (https://www.eventbrite.com/platform/api#/reference/venue/retrieve-an-event) by its ID, which should be the numeric ID for the venue in Eventbrite.
+This method returns a [venue](https://www.eventbrite.com/platform/api#/reference/venue/retrieve-an-event) by its ID, which should be the numeric ID for the venue in Eventbrite.
 
 `venueEvents(venueId, [expansions] = null, unlistedEvents = false)`
 
-This method returns only [events] (https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) held at the [venue] (https://www.eventbrite.com/platform/api#/reference/venue/retrieve-an-event) specified by the `venueId` parameter, with the other parameters working in the same way as the `allEvents` method.
+This method returns only [events](https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) held at the [venue](https://www.eventbrite.com/platform/api#/reference/venue/retrieve-an-event) specified by the `venueId` parameter, with the other parameters working in the same way as the `allEvents` method.
 
 ### Caching
 
-As the plugin reads live data from the Eventbrite API, you should wrap any use of the variable in your templates within [Craft `cache` tags] (https://docs.craftcms.com/v3/dev/tags/cache.html) to reduce your calls to the API and improve page load times.
+As the plugin reads live data from the Eventbrite API, you should wrap any use of the variable in your templates within [Craft `cache` tags](https://docs.craftcms.com/v3/dev/tags/cache.html) to reduce your calls to the API and improve page load times.
 
 ## Eventbrite Roadmap
 

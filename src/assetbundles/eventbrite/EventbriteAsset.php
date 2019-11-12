@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2019 Mark @ A Digital
  */
 
-namespace adigital\eventbrite\assetbundles\Eventbrite;
+namespace adigital\eventbrite\assetbundles\eventbrite;
 
 use Craft;
 use craft\web\AssetBundle;

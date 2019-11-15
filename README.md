@@ -30,7 +30,7 @@ The following screenshot of the plugin settings page gives an indication of how 
 
 <img width="1037" alt="Craft CMS Eventbrite Plugin Admin Settings" src="https://user-images.githubusercontent.com/30312669/66996260-557ea780-f0c8-11e9-9d59-f8b2b46adca0.png">
 
-There's also a settings page which can be accessed by non-admin accounts with the right permission in environments regardless of the `allowAdminChanges` setting. This page enables users to optionally specify additional event IDs not set up by their organisation to return along with their organisation's events. See screenshots of this settings page and permission below:
+There's also a settings page which can be accessed by non-admin accounts with the right permission in all environments regardless of the `allowAdminChanges` setting. This page enables users to optionally specify additional event IDs not set up by their organisation to return along with their organisation's events. See screenshots of this settings page and permission below:
 
 <img width="1042" alt="Craft CMS Eventbrite Plugin User Settings" src="https://user-images.githubusercontent.com/30312669/66996261-557ea780-f0c8-11e9-853d-4434a1bf6e10.png">
 
@@ -53,11 +53,11 @@ This method returns only [events](https://www.eventbrite.com/platform/api#/refer
 
 `craft.eventbrite.otherEvents([expansions] = null, sort = true, time_filter = "current_future", unlistedEvents = false)`
 
-This method returns only [events](https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) specified by the 'Other Event Ids', with the parameters working in the same way as the `allEvents` method.
+This method returns only [events](https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) specified by the 'Other Event Ids' setting, with the parameters working in the same way as the `allEvents` method.
 
 `craft.eventbrite.eventById(eventId, [expansions] = null, unlistedEvent = false)`
 
-This method returned a single [events](https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) by its ID, which should be the numeric ID for the event in Eventbrite.
+This method returns a single [event](https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) by its ID, which should be the numeric ID for the event in Eventbrite.
 
 `organisationVenues()`
 
@@ -73,7 +73,7 @@ This method returns only [events](https://www.eventbrite.com/platform/api#/refer
 
 ### Caching
 
-As the plugin reads live data from the Eventbrite API, you should wrap any use of the variable in your templates within [Craft `cache` tags](https://docs.craftcms.com/v3/dev/tags/cache.html) to reduce your calls to the API and improve page load times.
+As the plugin reads live data from the Eventbrite API, you should wrap any use of the variable in your Twig templates within [Craft `cache` tags](https://docs.craftcms.com/v3/dev/tags/cache.html) to reduce your calls to the API and improve page load times.
 
 ## Eventbrite Roadmap
 

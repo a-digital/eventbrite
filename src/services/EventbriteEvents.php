@@ -312,7 +312,7 @@ class EventbriteEvents extends Component
   {
     $settings = Eventbrite::$plugin->getSettings();
     $authToken = $settings->authToken;
-    $host = 'www.eventbriteapi.com';
+    $host = 'private-anon-1091a432af-eventbriteapiv3public.apiary-proxy.com';
     $headers = [
       'Host: '.$host,
       'Authorization: Bearer '.$authToken,

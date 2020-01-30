@@ -55,7 +55,7 @@ class EventbriteEvents extends Component
     }
     $organisationEvents = $this->curlWrap($method);
     
-    if (count($organisationEvents['events']) > 0)
+    if (is_array($organisationEvents['events']))
     {
       if($unlistedEvents === false)
       {
@@ -66,6 +66,8 @@ class EventbriteEvents extends Component
           }
         }
       }
+    } else {
+	  return array();
     }
     
     return $organisationEvents['events'];

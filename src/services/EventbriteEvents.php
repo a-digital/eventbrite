@@ -55,17 +55,20 @@ class EventbriteEvents extends Component
     }
     $organisationEvents = $this->curlWrap($method);
     
-    if($unlistedEvents === false)
+    if (count($organisationEvents['events']) > 0)
     {
-      foreach($organisationEvents['events'] AS $key => $organisationEvent) {
-        if($organisationEvent['listed'] === false)
-        {
-          unset($organisationEvents['events'][$key]);
+      if($unlistedEvents === false)
+      {
+        foreach($organisationEvents['events'] AS $key => $organisationEvent) {
+          if($organisationEvent['listed'] === false)
+          {
+            unset($organisationEvents['events'][$key]);
+          }
         }
       }
     }
     
-    return $organisationEvents;
+    return $organisationEvents['events'];
   }
 
   /**
@@ -105,11 +108,11 @@ class EventbriteEvents extends Component
           }
         }
       }
-    }
-    
-    if ($sort)
-    {
-      usort($otherEvents, array($this, "sortByEventDates"));
+      
+      if ($sort)
+      {
+        usort($otherEvents, array($this, "sortByEventDates"));
+      }
     }
     
     return $otherEvents;
@@ -158,9 +161,9 @@ class EventbriteEvents extends Component
   {
     $organisationEvents = $this->getOrganisationEvents($expansions, $time_filter, $unlistedEvents);
     $otherEvents = $this->getOtherEvents($expansions, false, $time_filter, $unlistedEvents);
-    $combinedEvents = array_merge($organisationEvents['events'], $otherEvents);
+    $combinedEvents = array_merge($organisationEvents, $otherEvents);
     
-    if ($sort && (count($organisationEvents['events']) > 0 && count($otherEvents) > 0))
+    if ($sort && (count($organisationEvents) > 0 && count($otherEvents) > 0))
     {
       usort($combinedEvents, array($this, "sortByEventDates"));
     }

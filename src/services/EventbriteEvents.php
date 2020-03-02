@@ -94,7 +94,7 @@ class EventbriteEvents extends Component
       foreach($otherEventIds AS $otherEventId) {
 	    if($otherEventId[0] != "")
 	    {
-          $data = $this->getEvent($otherEventId[0], $expansions, $unlistedEvents);
+          $data = $this->getEvent($otherEventId[0], $expansions, false, $unlistedEvents);
           
           if(is_array($data))
           {
@@ -130,7 +130,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getEvent($eventId, $expansions = null, $unlistedEvent = false)
+  public function getEvent($eventId, $expansions = null, $fullDescription = true, $unlistedEvent = false)
   {
     $method = "/v3/events/" . $eventId . "/";
     
@@ -144,9 +144,31 @@ class EventbriteEvents extends Component
     if ($unlistedEvent === false && $event['listed'] === false)
     {
       $event = null;
+    } elseif ($fullDescription) {
+	  $htmlDescription = $this->getEventDescription($eventId);
+	  $event['htmlDescription'] = $htmlDescription;
     }
     
     return $event;
+  }
+
+  /**
+   * This function can literally be anything you want, and you can have as many service
+   * functions as you want
+   *
+   * From any other plugin file, call it like this:
+   *
+   *     Eventbrite::$plugin->eventbriteService->exampleService()
+   *
+   * @return mixed
+   */
+  private function getEventDescription($eventId)
+  {
+    $method = "/v3/events/" . $eventId . "/description/";
+    
+    $eventDescription = $this->curlWrap($method);
+    
+    return $eventDescription;
   }
 
   /**

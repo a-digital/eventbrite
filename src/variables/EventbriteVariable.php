@@ -61,9 +61,9 @@ class EventbriteVariable
     return Eventbrite::$plugin->eventbriteEvents->getOtherEvents($expansions, $sort, $time_filter, $unlistedEvents);
   }
 
-  public function eventById($eventId, $expansions = null, $unlistedEvent = false)
+  public function eventById($eventId, $expansions = null, $fullDescription = true, $unlistedEvent = false)
   {
-    return Eventbrite::$plugin->eventbriteEvents->getEvent($eventId, $expansions, $unlistedEvent);
+    return Eventbrite::$plugin->eventbriteEvents->getEvent($eventId, $expansions, $fullDescription, $unlistedEvent);
   }
 
   public function organisationVenues()

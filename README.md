@@ -55,9 +55,9 @@ This method returns only [events](https://www.eventbrite.com/platform/api#/refer
 
 This method returns only [events](https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) specified by the 'Other Event Ids' setting, with the parameters working in the same way as the `allEvents` method.
 
-`craft.eventbrite.eventById(eventId, [expansions] = null, unlistedEvent = false)`
+`craft.eventbrite.eventById(eventId, [expansions] = null, fullDescription = true, unlistedEvent = false)`
 
-This method returns a single [event](https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) by its ID, which should be the numeric ID for the event in Eventbrite.
+This method returns a single [event](https://www.eventbrite.com/platform/api#/reference/event/retrieve-an-event) by its ID, which should be the numeric ID for the event in Eventbrite. Expansions are specified as described above and the full HTML description for the event can be optionally returned and accessed with `eventVariable['htmlDescription']['description']`.
 
 `organisationVenues()`
 

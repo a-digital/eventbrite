@@ -43,16 +43,17 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getOrganisationEvents($expansions = null, $time_filter = "current_future", $unlistedEvents = false)
+  public function getOrganisationEvents($expansions = null, $time_filter = "current_future", $unlistedEvents = false, $status = "live")
   {
     $settings = Eventbrite::$plugin->getSettings();
     $organisationId = $settings->organisationId;
-    $method = "/v3/organizations/" . $organisationId . "/events/";
+    $method = "/v3/organizations/" . $organisationId . "/events/?status=" . $status . "&time_filter=" . $time_filter;
     
-    if (!empty($expansions) || $time_filter != "all")
+    if (!empty($expansions))
     {
-      $method = $this->buildEventMethodQueryString($method, $expansions, $time_filter);
+      $method .= $this->buildEventMethodQueryString(false, $expansions);
     }
+    
     $organisationEvents = $this->curlWrap($method);
     
     if (is_array($organisationEvents['events']))
@@ -136,7 +137,7 @@ class EventbriteEvents extends Component
     
     if (!empty($expansions))
     {
-      $method = $this->buildEventMethodQueryString($method, $expansions);
+      $method .= $this->buildEventMethodQueryString(true, $expansions);
     }
     
     $event = $this->curlWrap($method);
@@ -181,13 +182,13 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getAllEvents($expansions = null, $sort = true, $time_filter = "current_future", $unlistedEvents = false)
+  public function getAllEvents($expansions = null, $sort = true, $time_filter = "current_future", $unlistedEvents = false, $status = "live")
   {
-    $organisationEvents = $this->getOrganisationEvents($expansions, $time_filter, $unlistedEvents);
+    $organisationEvents = $this->getOrganisationEvents($expansions, $time_filter, $unlistedEvents, $status);
     $otherEvents = $this->getOtherEvents($expansions, false, $time_filter, $unlistedEvents);
     $combinedEvents = array_merge($organisationEvents, $otherEvents);
     
-    if ($sort && (count($organisationEvents) > 0 && count($otherEvents) > 0))
+    if ($sort && ((count($organisationEvents) > 0 && count($otherEvents) > 0) || count($otherEvents) > 1))
     {
       usort($combinedEvents, array($this, "sortByEventDates"));
     }
@@ -245,13 +246,13 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getEventsByVenue($venueId, $expansions = null, $unlistedEvents = false)
+  public function getEventsByVenue($venueId, $expansions = null, $unlistedEvents = false, $status = "live", $onlyPublic = "true")
   {
-    $method = "/v3/venues/" . $venueId . "/events/";
+    $method = "/v3/venues/" . $venueId . "/events/?status=" . $status . "&only_public=" . $onlyPublic;
     
     if (!empty($expansions))
     {
-      $method = $this->buildEventMethodQueryString($method, $expansions);
+      $method .= $this->buildEventMethodQueryString(false, $expansions);
     }
     
     $venueEvents = $this->curlWrap($method);
@@ -296,33 +297,29 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  private function buildEventMethodQueryString($method, $expansions, $time_filter = false)
+  private function buildEventMethodQueryString($startOfQueryString, $expansions)
   {
-    $method .= "?";
+	$queryString = "";
+	
+	if ($startOfQueryString)
+	{
+	  $queryString .= "?";
+	}
+	else
+	{
+	  $queryString .= "&";
+	}
+	
+    $queryString .= "expand=";
     
-    if (!empty($expansions))
+    foreach($expansions AS $expansion)
     {
-      $method .= "expand=";
-      
-      foreach($expansions AS $expansion)
-      {
-        $method .= $expansion.",";
-      }
-      
-      $method = rtrim($method, ",");
-      
-      if ($time_filter)
-      {
-        $method .= "&";
-      }
+      $queryString .= $expansion.",";
     }
     
-    if ($time_filter)
-    {
-      $method .= "time_filter=" . $time_filter;
-    }
+    $queryString = rtrim($queryString, ",");
     
-    return $method;
+    return $queryString;
   }
 
   /**

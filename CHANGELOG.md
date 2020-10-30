@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.0.5 - 2020-10-30
+### Added
+- Add ability to filter by whether events are public or not
+
+### Fixed
+- Issue with PSR-4 autoloading of widget file
+
+### Changed
+- Updated README
+
 ## 1.0.4 - 2020-03-12
 ### Added
 - Add functionality to return full HTML description

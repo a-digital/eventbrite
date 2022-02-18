@@ -91,7 +91,7 @@ class EventbriteEvents extends Component
     $otherEventIds = json_decode($nonAdminSettings->otherEventIds);
     $otherEvents = array();
     
-    if(is_array($otherEventIds)) {
+    if(!empty($otherEventIds)) {
       foreach($otherEventIds AS $otherEventId) {
 	    if($otherEventId[0] != "")
 	    {

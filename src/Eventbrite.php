@@ -71,9 +71,9 @@ class Eventbrite extends Plugin
    *
    * @var string
    */
-  public $schemaVersion = '1.0.0';
-  public $hasCpSettings = true;
-  public $hasCpSection = true;
+  public string $schemaVersion = '1.0.0';
+  public bool $hasCpSettings = true;
+  public bool $hasCpSection = true;
 
   // Public Methods
   // =========================================================================

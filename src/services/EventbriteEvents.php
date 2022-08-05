@@ -332,7 +332,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  private function curlWrap($method, $request = null) : mixed|null
+  private function curlWrap($method, $request = null) : mixed
   {
     $settings = Eventbrite::$plugin->getSettings();
     $authToken = $settings->authToken;

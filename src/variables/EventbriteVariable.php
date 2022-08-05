@@ -71,7 +71,7 @@ class EventbriteVariable
     return Eventbrite::$plugin->eventbriteEvents->getOrganizationVenues();
   }
 
-  public function venueById($venueId) : object
+  public function venueById($venueId) : array
   {
     return Eventbrite::$plugin->eventbriteEvents->getVenue($venueId);
   }

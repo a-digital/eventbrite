@@ -227,7 +227,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getVenue($venueId) : object
+  public function getVenue($venueId) : array
   {
     $method = "/v3/venues/" . $venueId . "/";
     

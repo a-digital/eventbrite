@@ -246,7 +246,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getEventsByVenue($venueId, $expansions = null, $unlistedEvents = false, $status = "live", $onlyPublic = "true") : mixed
+  public function getEventsByVenue($venueId, $expansions = null, $unlistedEvents = false, $status = "live", $onlyPublic = "true") : array
   {
     $method = "/v3/venues/" . $venueId . "/events/?status=" . $status . "&only_public=" . $onlyPublic;
     

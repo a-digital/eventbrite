@@ -76,7 +76,7 @@ class EventbriteVariable
     return Eventbrite::$plugin->eventbriteEvents->getVenue($venueId);
   }
 
-  public function venueEvents($venueId, $expansions = null, $unlistedEvents = false, $status = "live", $onlyPublic = "true") : mixed
+  public function venueEvents($venueId, $expansions = null, $unlistedEvents = false, $status = "live", $onlyPublic = "true") : array
   {
     return Eventbrite::$plugin->eventbriteEvents->getEventsByVenue($venueId, $expansions, $unlistedEvents, $status, $onlyPublic);
   }

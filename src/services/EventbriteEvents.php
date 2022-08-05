@@ -332,7 +332,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  private function curlWrap($method, $request = null) : mixed
+  private function curlWrap($method, $request = null) : mixed|null
   {
     $settings = Eventbrite::$plugin->getSettings();
     $authToken = $settings->authToken;
@@ -361,7 +361,7 @@ class EventbriteEvents extends Component
     $decoded = json_decode($output, true);
     if (array_key_exists("error", $decoded)) {
       print ("<p>Error " . $decoded['status_code'] . " retrieving data from Eventbrite: " . $decoded['error_description'] . "</p>");
-      return;
+      return null;
     }
     return $decoded;
   }

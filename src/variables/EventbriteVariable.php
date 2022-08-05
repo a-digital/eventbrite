@@ -66,7 +66,7 @@ class EventbriteVariable
     return Eventbrite::$plugin->eventbriteEvents->getEvent($eventId, $expansions, $fullDescription, $unlistedEvent);
   }
 
-  public function organisationVenues() : object
+  public function organisationVenues() : array
   {
     return Eventbrite::$plugin->eventbriteEvents->getOrganizationVenues();
   }

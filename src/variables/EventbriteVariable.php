@@ -46,37 +46,37 @@ class EventbriteVariable
    * @param null $optional
    * @return string
    */
-  public function allEvents($expansions = null, $sort = true, $time_filter = "current_future", $unlistedEvents = false, $status = "live")
+  public function allEvents($expansions = null, $sort = true, $time_filter = "current_future", $unlistedEvents = false, $status = "live") : array
   {
     return Eventbrite::$plugin->eventbriteEvents->getAllEvents($expansions, $sort, $time_filter, $unlistedEvents, $status);
   }
 
-  public function organisationEvents($expansions = null, $time_filter = "current_future", $unlistedEvents = false, $status = "live")
+  public function organisationEvents($expansions = null, $time_filter = "current_future", $unlistedEvents = false, $status = "live") : array
   {
     return Eventbrite::$plugin->eventbriteEvents->getOrganisationEvents($expansions, $time_filter, $unlistedEvents, $status);
   }
 
-  public function otherEvents($expansions = null, $sort = true, $time_filter = "current_future", $unlistedEvents = false)
+  public function otherEvents($expansions = null, $sort = true, $time_filter = "current_future", $unlistedEvents = false) : array
   {
     return Eventbrite::$plugin->eventbriteEvents->getOtherEvents($expansions, $sort, $time_filter, $unlistedEvents);
   }
 
-  public function eventById($eventId, $expansions = null, $fullDescription = true, $unlistedEvent = false)
+  public function eventById($eventId, $expansions = null, $fullDescription = true, $unlistedEvent = false) array
   {
     return Eventbrite::$plugin->eventbriteEvents->getEvent($eventId, $expansions, $fullDescription, $unlistedEvent);
   }
 
-  public function organisationVenues()
+  public function organisationVenues() : object
   {
     return Eventbrite::$plugin->eventbriteEvents->getOrganizationVenues();
   }
 
-  public function venueById($venueId)
+  public function venueById($venueId) : object
   {
     return Eventbrite::$plugin->eventbriteEvents->getVenue($venueId);
   }
 
-  public function venueEvents($venueId, $expansions = null, $unlistedEvents = false, $status = "live", $onlyPublic = "true")
+  public function venueEvents($venueId, $expansions = null, $unlistedEvents = false, $status = "live", $onlyPublic = "true") : mixed
   {
     return Eventbrite::$plugin->eventbriteEvents->getEventsByVenue($venueId, $expansions, $unlistedEvents, $status, $onlyPublic);
   }

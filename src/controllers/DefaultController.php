@@ -47,7 +47,7 @@ class DefaultController extends Controller
      *
      * @return rendered template
      */
-    public function actionNonAdminSettings()
+    public function actionNonAdminSettings() : string
     {
         $nonAdminSettings = Eventbrite::$plugin->nonAdminSettings->get()->one();
         
@@ -56,7 +56,7 @@ class DefaultController extends Controller
         ]);
     }
     
-    public function actionSaveNonAdminSettings()
+    public function actionSaveNonAdminSettings() : string
     {
 	  $request = Craft::$app->getRequest();
       Eventbrite::$plugin->nonAdminSettings->edit($request);

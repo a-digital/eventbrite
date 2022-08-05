@@ -43,7 +43,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getOrganisationEvents($expansions = null, $time_filter = "current_future", $unlistedEvents = false, $status = "live")
+  public function getOrganisationEvents($expansions = null, $time_filter = "current_future", $unlistedEvents = false, $status = "live") : array
   {
     $settings = Eventbrite::$plugin->getSettings();
     $organisationId = $settings->organisationId;
@@ -84,7 +84,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getOtherEvents($expansions = null, $sort = true, $time_filter = "current_future", $unlistedEvents = false)
+  public function getOtherEvents($expansions = null, $sort = true, $time_filter = "current_future", $unlistedEvents = false) : array
   {
     $settings = Eventbrite::$plugin->getSettings();
     $nonAdminSettings = Eventbrite::$plugin->nonAdminSettings->get()->one();
@@ -131,7 +131,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getEvent($eventId, $expansions = null, $fullDescription = true, $unlistedEvent = false)
+  public function getEvent($eventId, $expansions = null, $fullDescription = true, $unlistedEvent = false) : array
   {
     $method = "/v3/events/" . $eventId . "/";
     
@@ -163,7 +163,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  private function getEventDescription($eventId)
+  private function getEventDescription($eventId) : string
   {
     $method = "/v3/events/" . $eventId . "/description/";
     
@@ -182,7 +182,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getAllEvents($expansions = null, $sort = true, $time_filter = "current_future", $unlistedEvents = false, $status = "live")
+  public function getAllEvents($expansions = null, $sort = true, $time_filter = "current_future", $unlistedEvents = false, $status = "live") : array
   {
     $organisationEvents = $this->getOrganisationEvents($expansions, $time_filter, $unlistedEvents, $status);
     $otherEvents = $this->getOtherEvents($expansions, false, $time_filter, $unlistedEvents);
@@ -206,7 +206,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getOrganizationVenues()
+  public function getOrganizationVenues() : object
   {
     $settings = Eventbrite::$plugin->getSettings();
     $organisationId = $settings->organisationId;
@@ -227,7 +227,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getVenue($venueId)
+  public function getVenue($venueId) : object
   {
     $method = "/v3/venues/" . $venueId . "/";
     
@@ -246,7 +246,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getEventsByVenue($venueId, $expansions = null, $unlistedEvents = false, $status = "live", $onlyPublic = "true")
+  public function getEventsByVenue($venueId, $expansions = null, $unlistedEvents = false, $status = "live", $onlyPublic = "true") : mixed
   {
     $method = "/v3/venues/" . $venueId . "/events/?status=" . $status . "&only_public=" . $onlyPublic;
     
@@ -280,7 +280,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  private function sortByEventDates($event1, $event2)
+  private function sortByEventDates($event1, $event2) : int
   {
     $event1DateTime = new \DateTime($event1['start']['utc']);
     $event2DateTime = new \DateTime($event2['start']['utc']);
@@ -297,7 +297,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  private function buildEventMethodQueryString($startOfQueryString, $expansions)
+  private function buildEventMethodQueryString($startOfQueryString, $expansions) : string
   {
 	$queryString = "";
 	
@@ -332,7 +332,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  private function curlWrap($method, $request = null)
+  private function curlWrap($method, $request = null) : mixed
   {
     $settings = Eventbrite::$plugin->getSettings();
     $authToken = $settings->authToken;

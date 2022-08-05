@@ -49,7 +49,7 @@ class EventbriteWidget extends Widget
    *
    * @return string|null The path to the widget’s SVG icon
    */
-  public static function iconPath()
+  public static function iconPath() : string
   {
     return Craft::getAlias("@adigital/eventbrite/assetbundles/eventbritewidgetwidget/dist/img/EventbriteWidget-icon.svg");
   }
@@ -59,7 +59,7 @@ class EventbriteWidget extends Widget
    *
    * @return int|null The widget’s maximum colspan, if it has one
    */
-  public static function maxColspan()
+  public static function maxColspan() : null
   {
     return null;
   }
@@ -74,7 +74,7 @@ class EventbriteWidget extends Widget
    *                      should not be visible. (If you don’t want the widget
    *                      to be selectable in the first place, use {@link isSelectable()}.)
    */
-  public function getBodyHtml()
+  public function getBodyHtml() : string
   {
     Craft::$app->getView()->registerAssetBundle(EventbriteWidgetWidgetAsset::class);
 

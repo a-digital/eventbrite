@@ -59,7 +59,7 @@ use yii\db\ActiveQuery;
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->uid;
     }

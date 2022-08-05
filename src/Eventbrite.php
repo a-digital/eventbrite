@@ -89,7 +89,7 @@ class Eventbrite extends Plugin
    * you do not need to load it in your init() method.
    *
    */
-  public function init()
+  public function init() : void
   {
     parent::init();
     self::$plugin = $this;
@@ -102,7 +102,7 @@ class Eventbrite extends Plugin
     Event::on(
       UrlManager::class,
       UrlManager::EVENT_REGISTER_CP_URL_RULES,
-      function (RegisterUrlRulesEvent $event) {
+      static function (RegisterUrlRulesEvent $event) {
         $event->rules['eventbrite'] = 'eventbrite/default/non-admin-settings';
       }
     );
@@ -118,7 +118,7 @@ class Eventbrite extends Plugin
     Event::on(
       Dashboard::class,
       Dashboard::EVENT_REGISTER_WIDGET_TYPES,
-      function (RegisterComponentTypesEvent $event) {
+      static function (RegisterComponentTypesEvent $event) {
         $event->types[] = EventbriteWidget::class;
       }
     );
@@ -127,7 +127,7 @@ class Eventbrite extends Plugin
     Event::on(
       CraftVariable::class,
       CraftVariable::EVENT_INIT,
-      function (Event $event) {
+      static function (Event $event) {
         /** @var CraftVariable $variable */
         $variable = $event->sender;
         $variable->set('eventbrite', EventbriteVariable::class);
@@ -138,7 +138,7 @@ class Eventbrite extends Plugin
     Event::on(
       Plugins::class,
       Plugins::EVENT_AFTER_INSTALL_PLUGIN,
-      function (PluginEvent $event) {
+      static function (PluginEvent $event) {
         if ($event->plugin === $this) {
           // We were just installed
         }
@@ -181,7 +181,7 @@ class Eventbrite extends Plugin
    *
    * @return \craft\base\Model|null
    */
-  protected function createSettingsModel()
+  protected function createSettingsModel() : Settings
   {
     return new Settings();
   }

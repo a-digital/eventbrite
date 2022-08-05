@@ -206,7 +206,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  public function getOrganizationVenues() : object
+  public function getOrganizationVenues() : array
   {
     $settings = Eventbrite::$plugin->getSettings();
     $organisationId = $settings->organisationId;

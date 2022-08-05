@@ -59,7 +59,7 @@ class EventbriteWidget extends Widget
    *
    * @return int|null The widget’s maximum colspan, if it has one
    */
-  public static function maxColspan() : mixed
+  public static function maxColspan() : int
   {
     return null;
   }

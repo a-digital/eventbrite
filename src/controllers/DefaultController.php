@@ -14,6 +14,7 @@ use adigital\eventbrite\Eventbrite;
 
 use Craft;
 use craft\web\Controller;
+use yii\web\Response;
 
 /**
  * Default Controller
@@ -56,7 +57,7 @@ class DefaultController extends Controller
         ]);
     }
     
-    public function actionSaveNonAdminSettings() : string
+    public function actionSaveNonAdminSettings() : Response
     {
 	  $request = Craft::$app->getRequest();
       Eventbrite::$plugin->nonAdminSettings->edit($request);

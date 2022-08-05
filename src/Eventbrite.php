@@ -109,8 +109,11 @@ class Eventbrite extends Plugin
     
     // Register our permissions
 	Event::on(UserPermissions::class, UserPermissions::EVENT_REGISTER_PERMISSIONS, function(RegisterUserPermissionsEvent $event) {
-      $event->permissions[Craft::t('eventbrite', 'Eventbrite')] = [
-        'eventbrite:settings' => ['label' => Craft::t('eventbrite', 'Settings')],
+      $event->permissions[] = [
+        'heading' => Craft::t('eventbrite', 'Eventbrite'),
+        'permissions' => [
+          'eventbrite:settings' => ['label' => Craft::t('eventbrite', 'Settings')],
+        ],
       ];
     });
 

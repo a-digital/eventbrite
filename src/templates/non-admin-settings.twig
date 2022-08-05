@@ -40,7 +40,9 @@
         'type': 'singleline'
       }
     ],
-    rows: nonAdminSettings['otherEventIds']|json_decode()})
+    rows: nonAdminSettings['otherEventIds']|json_decode()}),
+    allowAdd: true,
+    allowDelete: true,
   }}
   
 {% endset %}

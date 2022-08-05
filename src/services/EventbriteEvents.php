@@ -163,7 +163,7 @@ class EventbriteEvents extends Component
    *
    * @return mixed
    */
-  private function getEventDescription($eventId) : string
+  private function getEventDescription($eventId) : array
   {
     $method = "/v3/events/" . $eventId . "/description/";
     

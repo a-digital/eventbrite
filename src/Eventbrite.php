@@ -137,17 +137,6 @@ class Eventbrite extends Plugin
       }
     );
 
-    // Do something after we're installed
-    Event::on(
-      Plugins::class,
-      Plugins::EVENT_AFTER_INSTALL_PLUGIN,
-      static function (PluginEvent $event) {
-        if ($event->plugin === $this) {
-          // We were just installed
-        }
-      }
-    );
-
     /**
      * Logging in Craft involves using one of the following methods:
      *

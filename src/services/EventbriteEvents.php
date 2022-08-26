@@ -360,7 +360,9 @@ class EventbriteEvents extends Component
     curl_close($ch);
     $decoded = json_decode($output, true);
     if (array_key_exists("error", $decoded)) {
-      print ("<p>Error " . $decoded['status_code'] . " retrieving data from Eventbrite: " . $decoded['error_description'] . "</p>");
+      if (getenv('ENVIRONMENT') == 'dev' || getenv('ENVIRONMENT') == 'staging') {
+        print ("<p>Error " . $decoded['status_code'] . " retrieving data from Eventbrite: " . $decoded['error_description'] . "</p>");
+      }
       return null;
     }
     return $decoded;

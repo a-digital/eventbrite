@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.1 - 2022-09-20
+### Changed
+- Errors are now suppressed in production environments
+
 ## 2.0.0 - 2022-08-11
 ### Changed
 - Update plugin for Craft 4

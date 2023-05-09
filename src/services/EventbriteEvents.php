@@ -143,7 +143,7 @@ class EventbriteEvents extends Component
     $event = $this->curlWrap($method);
     
     $otherEventIds = array_column(json_decode(Eventbrite::$plugin->nonAdminSettings->get()->one()->otherEventIds), 0);
-    if (($unlistedEvent === false && $event['listed'] === false) || ($event['organization_id'] != Eventbrite::$plugin->getSettings()->organisationId && !array_search($eventId, $otherEventIds)))
+    if (is_array($event) && ($unlistedEvent === false && $event['listed'] === false) || ($event['organization_id'] != Eventbrite::$plugin->getSettings()->organisationId && !array_search($eventId, $otherEventIds)))
     {
       $event = null;
     }

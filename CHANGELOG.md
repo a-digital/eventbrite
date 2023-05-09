@@ -5,8 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 1.0.8 - 2023-05-09
-### Changed
+### Fixed
 - Fixed array null with $event
+- Converted varchar 255 to text on plugin settings to prevent max length issue
 
 ## 1.0.7 - 2022-09-20
 ### Changed

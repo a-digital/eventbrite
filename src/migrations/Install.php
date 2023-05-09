@@ -102,7 +102,7 @@ class Install extends Migration
                 [
                     'id' => $this->primaryKey(),
                 // Custom columns in the table
-                    'otherEventIds' => $this->string(255)->defaultValue(NULL),
+                    'otherEventIds' => $this->text()->defaultValue(NULL),
                 // Default columns
                     'dateCreated' => $this->dateTime()->notNull(),
                     'dateUpdated' => $this->dateTime()->notNull(),

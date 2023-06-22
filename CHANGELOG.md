@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.0.10 - 2023-06-22
+### Fixed
+- issue where event is not array, added additional parenthesis to conditional
+
 ## 1.0.9 - 2023-06-22
 ### Fixed
 - issue where array_column() expects parameter 1 to be array, object given

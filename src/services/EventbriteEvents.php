@@ -46,7 +46,7 @@ class EventbriteEvents extends Component
   public function getOrganisationEvents($expansions = null, $time_filter = "current_future", $unlistedEvents = false, $status = "live") : array
   {
     $settings = Eventbrite::$plugin->getSettings();
-    $organisationId = $settings->organisationId;
+    $organisationId = $settings->organisationId();
     $method = "/v3/organizations/" . $organisationId . "/events/?status=" . $status . "&time_filter=" . $time_filter;
     
     if (!empty($expansions))
@@ -143,7 +143,7 @@ class EventbriteEvents extends Component
     $event = $this->curlWrap($method);
     
     $otherEventIds = array_column(json_decode(Eventbrite::$plugin->nonAdminSettings->get()->one()->otherEventIds), 0);
-    if (($unlistedEvent === false && $event['listed'] === false) || ($event['organization_id'] != Eventbrite::$plugin->getSettings()->organisationId && !array_search($eventId, $otherEventIds)))
+    if (($unlistedEvent === false && $event['listed'] === false) || ($event['organization_id'] != Eventbrite::$plugin->getSettings()->organisationId() && !array_search($eventId, $otherEventIds)))
     {
       $event = null;
     }
@@ -212,7 +212,7 @@ class EventbriteEvents extends Component
   public function getOrganizationVenues() : array
   {
     $settings = Eventbrite::$plugin->getSettings();
-    $organisationId = $settings->organisationId;
+    $organisationId = $settings->organisationId();
     $method = "/v3/organizations/" . $organisationId . "/venues/";
     	
     $organisationVenues = $this->curlWrap($method);
@@ -338,7 +338,7 @@ class EventbriteEvents extends Component
   private function curlWrap($method, $request = null) : mixed
   {
     $settings = Eventbrite::$plugin->getSettings();
-    $authToken = $settings->authToken;
+    $authToken = $settings->authToken();
     $host = 'www.eventbriteapi.com';
     $headers = [
       'Host: '.$host,

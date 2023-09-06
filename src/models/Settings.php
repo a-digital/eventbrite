@@ -63,4 +63,23 @@ class Settings extends Model
       ['organisationId', 'default', 'value' => ''],
     ];
   }
+
+    public function authToken(): string
+    {
+        if (substr($this->authToken, 0, 1) === '$') {
+            $f = getenv(substr($this->authToken, 1)) ?: '';
+            return $f;
+        } else {
+            return $this->authToken;
+        }
+    }
+
+    public function organisationId(): string
+    {
+        if (substr($this->organisationId, 0, 1) === '$') {
+            return getenv(substr($this->organisationId, 1)) ?: '';
+        } else {
+            return $this->organisationId;
+        }
+    }
 }

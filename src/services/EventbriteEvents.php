@@ -164,13 +164,13 @@ class EventbriteEvents extends Component
    *
    *     Eventbrite::$plugin->eventbriteService->exampleService()
    *
-   * @return mixed
+   * @return array
    */
   private function getEventDescription($eventId) : array
   {
     $method = "/v3/events/" . $eventId . "/description/";
     
-    $eventDescription = $this->curlWrap($method);
+    $eventDescription = $this->curlWrap($method) ?: [];
     
     return $eventDescription;
   }

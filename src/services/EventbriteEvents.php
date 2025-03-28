@@ -164,13 +164,13 @@ class EventbriteEvents extends Component
    *
    *     Eventbrite::$plugin->eventbriteService->exampleService()
    *
-   * @return mixed
+   * @return array
    */
   private function getEventDescription($eventId) : array
   {
     $method = "/v3/events/" . $eventId . "/description/";
     
-    $eventDescription = $this->curlWrap($method);
+    $eventDescription = $this->curlWrap($method) ?: [];
     
     return $eventDescription;
   }
@@ -228,13 +228,13 @@ class EventbriteEvents extends Component
    *
    *     Eventbrite::$plugin->eventbriteService->exampleService()
    *
-   * @return mixed
+   * @return array
    */
   public function getVenue($venueId) : array
   {
     $method = "/v3/venues/" . $venueId . "/";
     
-    $venue = $this->curlWrap($method);
+    $venue = $this->curlWrap($method) ?: [];
     
     return $venue;
   }

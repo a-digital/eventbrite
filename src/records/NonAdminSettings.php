@@ -1,17 +1,16 @@
 <?php
 /**
- * Eventbrite plugin for Craft CMS 3.x
+ * Eventbrite plugin for Craft CMS 4.x
  *
  * Integration with Eventbrite API
  *
  * @link      https://adigital.agency/
- * @copyright Copyright (c) 2019 Mark @ A Digital
+ * @copyright Copyright (c) 2019 A Digital
  */
 
 namespace adigital\eventbrite\records;
 
 use craft\db\ActiveRecord;
-use yii\db\ActiveQuery;
 
 /**
  * Non-Admin Settings Record
@@ -26,13 +25,8 @@ use yii\db\ActiveQuery;
  * http://www.yiiframework.com/doc-2.0/guide-db-active-record.html
  *
  * @author    A Digital
- * @package   Maintenance
+ * @package   Eventbrite
  * @since     1.0.0
- *
- * @property ActiveQuery $author
- * @property ActiveQuery $updates
- * @property ActiveQuery $user
- * @property ActiveQuery $entity
  */
  class NonAdminSettings extends ActiveRecord
  {

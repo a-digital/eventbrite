@@ -1,11 +1,11 @@
 <?php
 /**
- * Eventbrite plugin for Craft CMS 3.x
+ * Eventbrite plugin for Craft CMS 4.x
  *
  * Integration with Eventbrite API
  *
  * @link      https://adigital.agency/
- * @copyright Copyright (c) 2019 Mark @ A Digital
+ * @copyright Copyright (c) 2019 A Digital
  */
 
 /**

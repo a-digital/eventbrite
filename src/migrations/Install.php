@@ -1,18 +1,17 @@
 <?php
 /**
- * Eventbrite plugin for Craft CMS 3.x
+ * Eventbrite plugin for Craft CMS 4.x
  *
  * Integration with Eventbrite API
  *
  * @link      https://adigital.agency/
- * @copyright Copyright (c) 2019 Mark @ A Digital
+ * @copyright Copyright (c) 2019 A Digital
  */
 
 namespace adigital\eventbrite\migrations;
 
 use adigital\eventbrite\records\NonAdminSettings;
 use Craft;
-use craft\config\DbConfig;
 use craft\db\Migration;
 
 /**
@@ -35,9 +34,9 @@ class Install extends Migration
     // =========================================================================
 
     /**
-     * @var string The database driver to use
+     * @var string|null The database driver to use
      */
-    public $driver;
+    public ?string $driver;
 
     // Public Methods
     // =========================================================================
@@ -121,7 +120,7 @@ class Install extends Migration
     protected function insertDefaultData() : void
     {
 	// non_admin_settings table
-	    $this->insert(NonAdminSettings::tableName(), array('otherEventIds' => ''), true);
+	    $this->insert(NonAdminSettings::tableName(), array('otherEventIds' => ''));
     }
 
     /**

@@ -1,11 +1,11 @@
 <?php
 /**
- * Eventbrite plugin for Craft CMS 3.x
+ * Eventbrite plugin for Craft CMS 4.x
  *
  * Integration with Eventbrite API
  *
  * @link      https://adigital.agency/
- * @copyright Copyright (c) 2019 Mark @ A Digital
+ * @copyright Copyright (c) 2019 A Digital
  */
 
 /**
@@ -16,7 +16,7 @@
  *
  * http://www.yiiframework.com/doc-2.0/guide-tutorial-i18n.html
  *
- * @author    Mark @ A Digital
+ * @author    A Digital
  * @package   Eventbrite
  * @since     1.0.0
  */

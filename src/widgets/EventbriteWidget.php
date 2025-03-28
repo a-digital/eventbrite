@@ -1,20 +1,24 @@
 <?php
 /**
- * Eventbrite plugin for Craft CMS 3.x
+ * Eventbrite plugin for Craft CMS 4.x
  *
  * Integration with Eventbrite API
  *
  * @link      https://adigital.agency/
- * @copyright Copyright (c) 2019 Mark @ A Digital
+ * @copyright Copyright (c) 2019 A Digital
  */
 
 namespace adigital\eventbrite\widgets;
 
-use adigital\eventbrite\Eventbrite;
 use adigital\eventbrite\assetbundles\eventbritewidgetwidget\EventbriteWidgetWidgetAsset;
 
 use Craft;
 use craft\base\Widget;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+use yii\base\Exception;
+use yii\base\InvalidConfigException;
 
 /**
  * Eventbrite Widget
@@ -24,7 +28,7 @@ use craft\base\Widget;
  *
  * https://craftcms.com/docs/plugins/widgets
  *
- * @author    Mark @ A Digital
+ * @author    A Digital
  * @package   Eventbrite
  * @since     1.0.0
  */
@@ -67,13 +71,18 @@ class EventbriteWidget extends Widget
   // Public Methods
   // =========================================================================
 
-  /**
-   * Returns the widget's body HTML.
-   *
-   * @return string|false The widget’s body HTML, or `false` if the widget
-   *                      should not be visible. (If you don’t want the widget
-   *                      to be selectable in the first place, use {@link isSelectable()}.)
-   */
+    /**
+     * Returns the widget's body HTML.
+     *
+     * @return string The widget’s body HTML, or `false` if the widget
+     *                      should not be visible. (If you don’t want the widget
+     *                      to be selectable in the first place, use {@link isSelectable()}.)
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     * @throws Exception
+     * @throws InvalidConfigException
+     */
   public function getBodyHtml() : string
   {
     Craft::$app->getView()->registerAssetBundle(EventbriteWidgetWidgetAsset::class);

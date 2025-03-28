@@ -1,24 +1,21 @@
 <?php
 /**
- * Eventbrite plugin for Craft CMS 3.x
+ * Eventbrite plugin for Craft CMS 4.x
  *
  * Integration with Eventbrite API
  *
  * @link      https://adigital.agency/
- * @copyright Copyright (c) 2019 Mark @ A Digital
+ * @copyright Copyright (c) 2019 A Digital
  */
 
 namespace adigital\eventbrite\services;
 
-use adigital\eventbrite\Eventbrite;
-
 use adigital\eventbrite\models\NonAdminSettings as NonAdminSettingsModel;
 use adigital\eventbrite\records\NonAdminSettings as NonAdminSettingsRecord;
-use Craft;
 use craft\base\Component;
-use craft\helpers\ElementHelper;
 use craft\web\Request;
 use yii\db\ActiveQuery;
+use yii\db\Exception;
 
 /**
  * Non-Admin Settings Service
@@ -29,7 +26,7 @@ use yii\db\ActiveQuery;
  *
  * https://craftcms.com/docs/plugins/services
  *
- * @author    Mark @ A Digital
+ * @author    A Digital
  * @package   Eventbrite
  * @since     1.0.0
  */
@@ -38,17 +35,18 @@ class NonAdminSettings extends Component
   // Public Methods
   // =========================================================================
 
-  /**
-   * This function can literally be anything you want, and you can have as many service
-   * functions as you want
-   *
-   * From any other plugin file, call it like this:
-   *
-   *     Eventbrite::$plugin->eventbriteService->exampleService()
-   *
-   * @param $request Request
-   * @return bool
-   */
+    /**
+     * This function can literally be anything you want, and you can have as many service
+     * functions as you want
+     *
+     * From any other plugin file, call it like this:
+     *
+     *     Eventbrite::$plugin->eventbriteService->exampleService()
+     *
+     * @param $request Request
+     * @return bool
+     * @throws Exception
+     */
     public function edit($request) : bool
     {
         $model = new NonAdminSettingsModel();

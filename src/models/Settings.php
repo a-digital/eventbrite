@@ -1,11 +1,11 @@
 <?php
 /**
- * Eventbrite plugin for Craft CMS 3.x
+ * Eventbrite plugin for Craft CMS 4.x
  *
  * Integration with Eventbrite API
  *
  * @link      https://adigital.agency/
- * @copyright Copyright (c) 2019 Mark @ A Digital
+ * @copyright Copyright (c) 2019 A Digital
  */
 
 namespace adigital\eventbrite\models;
@@ -22,7 +22,7 @@ use craft\base\Model;
  *
  * https://craftcms.com/docs/plugins/models
  *
- * @author    Mark @ A Digital
+ * @author    A Digital
  * @package   Eventbrite
  * @since     1.0.0
  */
@@ -31,12 +31,10 @@ class Settings extends Model
   // Public Properties
   // =========================================================================
 
-  /**
-   * Some field model attribute
-   *
-   * @var string
-   */
+  /** @var string $authToken */
   public $authToken = '';
+
+  /** @var string $organisationId */
   public $organisationId = '';
 
   // Public Methods
@@ -66,9 +64,8 @@ class Settings extends Model
 
     public function authToken(): string
     {
-        if (substr($this->authToken, 0, 1) === '$') {
-            $f = getenv(substr($this->authToken, 1)) ?: '';
-            return $f;
+        if (str_starts_with($this->authToken, '$')) {
+            return getenv(substr($this->authToken, 1)) ?: '';
         } else {
             return $this->authToken;
         }
@@ -76,7 +73,7 @@ class Settings extends Model
 
     public function organisationId(): string
     {
-        if (substr($this->organisationId, 0, 1) === '$') {
+        if (str_starts_with($this->organisationId, '$')) {
             return getenv(substr($this->organisationId, 1)) ?: '';
         } else {
             return $this->organisationId;

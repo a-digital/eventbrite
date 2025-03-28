@@ -1,11 +1,11 @@
 <?php
 /**
- * Eventbrite plugin for Craft CMS 3.x
+ * Eventbrite plugin for Craft CMS 4.x
  *
  * Integration with Eventbrite API
  *
  * @link      https://adigital.agency/
- * @copyright Copyright (c) 2019 Mark @ A Digital
+ * @copyright Copyright (c) 2019 A Digital
  */
 
 namespace adigital\eventbrite\controllers;
@@ -32,7 +32,7 @@ use yii\web\Response;
  *
  * https://craftcms.com/docs/plugins/controllers
  *
- * @author    Mark @ A Digital
+ * @author    A Digital
  * @package   Eventbrite
  * @since     1.0.0
  */
@@ -46,9 +46,9 @@ class DefaultController extends Controller
      * Handle a request going to our plugin's settings URL,
      * e.g.: actions/eventbrite/settings
      *
-     * @return rendered template
+     * @return Response
      */
-    public function actionNonAdminSettings() : string
+    public function actionNonAdminSettings(): Response
     {
         $nonAdminSettings = Eventbrite::$plugin->nonAdminSettings->get()->one();
         

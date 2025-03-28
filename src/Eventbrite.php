@@ -1,11 +1,11 @@
 <?php
 /**
- * Eventbrite plugin for Craft CMS 3.x
+ * Eventbrite plugin for Craft CMS 4.x
  *
  * Integration with Eventbrite API
  *
  * @link      https://adigital.agency/
- * @copyright Copyright (c) 2019 Mark @ A Digital
+ * @copyright Copyright (c) 2019 A Digital
  */
 
 namespace adigital\eventbrite;
@@ -18,22 +18,23 @@ use adigital\eventbrite\widgets\EventbriteWidget;
 
 use Craft;
 use craft\base\Plugin;
-use craft\services\Plugins;
-use craft\events\PluginEvent;
 use craft\web\UrlManager;
 use craft\web\twig\variables\CraftVariable;
 use craft\services\Dashboard;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\events\RegisterUserPermissionsEvent;
-use craft\helpers\UrlHelper;
 use craft\services\UserPermissions;
 
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use yii\base\Event;
+use yii\base\Exception;
 
 /**
  * Craft plugins are very much like little applications in and of themselves. We’ve made
- * it as simple as we can, but the training wheels are off. A little prior knowledge is
+ * it as simple as we can, but the training wheels are off. A little bit of prior knowledge is
  * going to be required to write a plugin.
  *
  * For the purposes of the plugin docs, we’re going to assume that you know PHP and SQL,
@@ -41,12 +42,12 @@ use yii\base\Event;
  *
  * https://craftcms.com/docs/plugins/introduction
  *
- * @author    Mark @ A Digital
+ * @author    A Digital
  * @package   Eventbrite
  * @since     1.0.0
  *
- * @property  Non-Admin Settings $nonAdminSettings
- * @property  EventbriteServiceService $eventbriteService
+ * @property  EventbriteEvents $eventbriteEvents
+ * @property  NonAdminSettings $nonAdminSettings
  * @property  Settings $settings
  * @method    Settings getSettings()
  */
@@ -61,7 +62,7 @@ class Eventbrite extends Plugin
    *
    * @var Eventbrite
    */
-  public static $plugin;
+  public static Eventbrite $plugin;
 
   // Public Properties
   // =========================================================================
@@ -171,7 +172,7 @@ class Eventbrite extends Plugin
   /**
    * Creates and returns the model used to store the plugin’s settings.
    *
-   * @return \craft\base\Model|null
+   * @return Settings
    */
   protected function createSettingsModel() : Settings
   {
@@ -183,6 +184,10 @@ class Eventbrite extends Plugin
    * block on the settings page.
    *
    * @return string The rendered settings HTML
+   * @throws LoaderError
+   * @throws RuntimeError
+   * @throws SyntaxError
+   * @throws Exception
    */
   protected function settingsHtml(): string
   {

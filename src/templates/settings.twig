@@ -17,22 +17,25 @@
 
 {% import "_includes/forms" as forms %}
 
-{{ forms.textField({
+{{ forms.autosuggestField({
   label: 'Auth Token',
   instructions: 'Enter your auth token here.',
   id: 'authToken',
   name: 'authToken',
   value: settings['authToken'],
   errors: settings.getErrors('authToken'),
-  required: true
+  required: true,
+  suggestEnvVars: true,
+  first: true
 }) }}
 
-{{ forms.textField({
+{{ forms.autosuggestField({
   label: 'Organisation ID',
   instructions: 'Enter your organisation ID here.',
   id: 'organisationId',
   name: 'organisationId',
   value: settings['organisationId'],
   errors: settings.getErrors('organisationId'),
-  required: true
+  required: true,
+  suggestEnvVars: true
 }) }}

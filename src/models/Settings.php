@@ -11,6 +11,7 @@
 namespace adigital\eventbrite\models;
 
 use craft\base\Model;
+use craft\helpers\App;
 
 /**
  * Eventbrite Settings Model
@@ -32,10 +33,10 @@ class Settings extends Model
   // =========================================================================
 
   /** @var string $authToken */
-  public $authToken = '';
+  public string $authToken = '';
 
   /** @var string $organisationId */
-  public $organisationId = '';
+  public string $organisationId = '';
 
   // Public Methods
   // =========================================================================
@@ -64,19 +65,11 @@ class Settings extends Model
 
     public function authToken(): string
     {
-        if (str_starts_with($this->authToken, '$')) {
-            return getenv(substr($this->authToken, 1)) ?: '';
-        } else {
-            return $this->authToken;
-        }
+        return App::parseEnv($this->authToken);
     }
 
     public function organisationId(): string
     {
-        if (str_starts_with($this->organisationId, '$')) {
-            return getenv(substr($this->organisationId, 1)) ?: '';
-        } else {
-            return $this->organisationId;
-        }
+        return App::parseEnv($this->organisationId);
     }
 }

@@ -1,10 +1,10 @@
-# Eventbrite plugin for Craft CMS 4.x
+# Eventbrite plugin for Craft CMS 5.x
 
 Integration with Eventbrite API to read information and return it in a variable.
 
 ## Requirements
 
-This plugin requires Craft CMS 4.0.0 or later.
+This plugin requires Craft CMS 5.0.0 or later.
 
 ## Installation
 
@@ -83,4 +83,4 @@ Things to do, and ideas for potential features:
 * Explore use of other API methods to expand data returned and possibly add more event stats to Craft
 
 
-Brought to you by [Mark @ A Digital](https://adigital.agency/)
+Brought to you by [A Digital](https://adigital.agency/)

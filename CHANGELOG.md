@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.0 - 2025-04-16
+### Changed
+- Update plugin for Craft 5
+
 ## 2.0.3 - 2025-03-28
 ### Changed
 - General housekeeping with a code refactor to clean up plugin references, return types, a few conditionals, etc

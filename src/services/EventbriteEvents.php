@@ -60,7 +60,7 @@ class EventbriteEvents extends Component
     $organisationEvents = $this->curlWrap($method);
     
     if (!is_array($organisationEvents['events'])) {
-      return array();
+      return [];
     }
 
     if ($unlistedEvents === false) {
@@ -92,7 +92,7 @@ class EventbriteEvents extends Component
   {
     $nonAdminSettings = Eventbrite::$plugin->nonAdminSettings->get()->one();
     $otherEventIds = json_decode($nonAdminSettings->otherEventIds);
-    $otherEvents = array();
+    $otherEvents = [];
     
     if (empty($otherEventIds)) {
         return $otherEvents;
@@ -120,7 +120,7 @@ class EventbriteEvents extends Component
     }
       
     if ($sort) {
-      usort($otherEvents, array($this, "sortByEventDates"));
+      usort($otherEvents, [$this, "sortByEventDates"]);
     }
     
     return $otherEvents;
@@ -152,13 +152,13 @@ class EventbriteEvents extends Component
     
     $otherEventIds = array_column(json_decode(Eventbrite::$plugin->nonAdminSettings->get()->one()->otherEventIds), 0);
     if (($unlistedEvent === false && $event['listed'] === false) || ($event['organization_id'] != Eventbrite::$plugin->getSettings()->organisationId() && !array_search($eventId, $otherEventIds))) {
-      $event = array();
+      $event = [];
     } elseif ($fullDescription) {
       $htmlDescription = $this->getEventDescription($eventId);
 	  $event['htmlDescription'] = $htmlDescription;
     }
     if (!is_array($event)) {
-        return array();
+        return [];
     }
     
     return $event;
@@ -206,11 +206,11 @@ class EventbriteEvents extends Component
     $combinedEvents = array_merge($organisationEvents, $otherEvents);
     
     if ($sort && ((count($organisationEvents) > 0 && count($otherEvents) > 0) || count($otherEvents) > 1)) {
-      usort($combinedEvents, array($this, "sortByEventDates"));
+      usort($combinedEvents, [$this, "sortByEventDates"]);
     }
 
     if (!is_array($combinedEvents)) {
-        return array();
+        return [];
     }
     
     return $combinedEvents;
@@ -385,13 +385,13 @@ class EventbriteEvents extends Component
     curl_close($ch);
     $decoded = json_decode($output, true);
     if (!is_array($decoded)) {
-        return array();
+        return [];
     }
     if (array_key_exists("error", $decoded)) {
       if (getenv('ENVIRONMENT') == 'dev' || getenv('ENVIRONMENT') == 'staging') {
         print ("<p>Error " . $decoded['status_code'] . " retrieving data from Eventbrite: " . $decoded['error_description'] . "</p>");
       }
-      return array();
+      return [];
     }
     return $decoded;
   }

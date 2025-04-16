@@ -120,7 +120,7 @@ class Install extends Migration
     protected function insertDefaultData() : void
     {
 	// non_admin_settings table
-	    $this->insert(NonAdminSettings::tableName(), array('otherEventIds' => ''));
+	    $this->insert(NonAdminSettings::tableName(), ['otherEventIds' => '']);
     }
 
     /**

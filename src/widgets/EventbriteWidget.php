@@ -53,7 +53,7 @@ class EventbriteWidget extends Widget
    *
    * @return string|null The path to the widget’s SVG icon
    */
-  public static function iconPath() : string
+  public static function iconPath(): ?string
   {
     return Craft::getAlias("@adigital/eventbrite/assetbundles/eventbritewidgetwidget/dist/img/EventbriteWidget-icon.svg");
   }
@@ -63,7 +63,7 @@ class EventbriteWidget extends Widget
    *
    * @return int|null The widget’s maximum colspan, if it has one
    */
-  public static function maxColspan() : int|null
+  public static function maxColspan(): int|null
   {
     return null;
   }
@@ -83,7 +83,7 @@ class EventbriteWidget extends Widget
      * @throws Exception
      * @throws InvalidConfigException
      */
-  public function getBodyHtml() : string
+  public function getBodyHtml(): string
   {
     Craft::$app->getView()->registerAssetBundle(EventbriteWidgetWidgetAsset::class);
 

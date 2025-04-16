@@ -354,10 +354,9 @@ class EventbriteEvents extends Component
      *     Eventbrite::$plugin->eventbriteEvents->curlWrap()
      *
      * @param $method
-     * @param null $request
      * @return array
      */
-  private function curlWrap($method, $request = null) : array
+  private function curlWrap($method) : array
   {
     $settings = Eventbrite::$plugin->getSettings();
     $authToken = $settings->authToken();
@@ -375,11 +374,6 @@ class EventbriteEvents extends Component
     curl_setopt($ch, CURLOPT_VERBOSE, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-    if ($request !== null) {
-      curl_setopt($ch, CURLOPT_POST,1);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
-      $headers[] = 'Content-Type: application/json';
-    }
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     $output = curl_exec($ch);
     curl_close($ch);
@@ -388,7 +382,7 @@ class EventbriteEvents extends Component
         return [];
     }
     if (array_key_exists("error", $decoded)) {
-      if (getenv('ENVIRONMENT') == 'dev' || getenv('ENVIRONMENT') == 'staging') {
+      if (getenv('ENVIRONMENT') != 'production') {
         print ("<p>Error " . $decoded['status_code'] . " retrieving data from Eventbrite: " . $decoded['error_description'] . "</p>");
       }
       return [];
